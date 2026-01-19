@@ -1,0 +1,5 @@
+{
+  "agents": ["claude_code", "copilot", "gemini", "phpstorm"],
+  "editors": ["claude_code", "gemini", "phpstorm", "vscode"],
+  "guidelines": []
+}

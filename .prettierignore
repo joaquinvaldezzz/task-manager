@@ -1,0 +1,12 @@
+bootstrap/cache/
+public/build/
+resources/js/actions/
+resources/js/routes/
+resources/js/routes/index.ts
+resources/js/routes/storage/index.ts
+resources/js/wayfinder/index.ts
+resources/views/mail/
+storage/
+
+bun.lock
+pnpm-lock.yaml

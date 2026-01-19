@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "laravel-boost": {
+      "command": "/Applications/ServBay/package/php/8.4/8.4.12/bin/php",
+      "args": ["/Users/Joaquin/Developer/task-manager/artisan", "boost:mcp"]
+    }
+  }
+}
