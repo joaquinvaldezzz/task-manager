@@ -9,23 +9,23 @@ use Laravel\Fortify\InteractsWithTwoFactorState;
 
 class TwoFactorAuthenticationRequest extends FormRequest
 {
-  use InteractsWithTwoFactorState;
+    use InteractsWithTwoFactorState;
 
-  /**
-   * Determine if the user is authorized to make this request.
-   */
-  public function authorize(): bool
-  {
-    return Features::enabled(Features::twoFactorAuthentication());
-  }
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return Features::enabled(Features::twoFactorAuthentication());
+    }
 
-  /**
-   * Get the validation rules that apply to the request.
-   *
-   * @return array<string, ValidationRule|array<mixed>|string>
-   */
-  public function rules(): array
-  {
-    return [];
-  }
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [];
+    }
 }

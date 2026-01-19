@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-  use HasFactory;
+    use HasFactory;
 
-  protected $fillable = ["title", "description", "completed"];
+    protected $fillable = ['title', 'description', 'completed'];
 
-  protected $casts = [
-    "completed" => "boolean",
-  ];
+    protected $casts = [
+        'completed' => 'boolean',
+    ];
 
-  public function user()
-  {
-    return $this->belongsTo(User::class);
-  }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
