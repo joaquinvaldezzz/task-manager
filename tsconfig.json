@@ -113,5 +113,10 @@
     },
     "jsx": "react-jsx"
   },
-  "include": ["resources/js/**/*.ts", "resources/js/**/*.d.ts", "resources/js/**/*.tsx"]
+  "include": [
+    "vite.config.ts",
+    "resources/js/**/*.ts",
+    "resources/js/**/*.d.ts",
+    "resources/js/**/*.tsx"
+  ]
 }
