@@ -1,8 +1,11 @@
-import { HTMLAttributes } from "react";
-import { LucideIcon, Monitor, Moon, Sun } from "lucide-react";
+import { Monitor, Moon, Sun } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { Appearance, useAppearance } from "@/hooks/use-appearance";
+import { useAppearance } from "@/hooks/use-appearance";
+
+import type { Appearance } from "@/hooks/use-appearance";
+import type { LucideIcon } from "lucide-react";
+import type { HTMLAttributes } from "react";
 
 export default function AppearanceToggleTab({
   className = "",
@@ -26,6 +29,7 @@ export default function AppearanceToggleTab({
     >
       {tabs.map(({ value, icon: Icon, label }) => (
         <button
+          type="button"
           key={value}
           onClick={() => updateAppearance(value)}
           className={cn(
