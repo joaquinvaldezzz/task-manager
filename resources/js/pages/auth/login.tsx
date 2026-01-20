@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { register } from "@/routes";
@@ -18,7 +19,7 @@ interface LoginProps {
   canRegister: boolean;
 }
 
-export default function Login({ status, canResetPassword, canRegister }: LoginProps) {
+export default function Login({ status = undefined, canResetPassword, canRegister }: LoginProps) {
   return (
     <AuthLayout
       title="Log in to your account"
@@ -28,7 +29,7 @@ export default function Login({ status, canResetPassword, canRegister }: LoginPr
 
       <Form {...store.form()} resetOnSuccess={["password"]} className="flex flex-col gap-6">
         {({ processing, errors }) => (
-          <>
+          <Fragment>
             <div className="grid gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email address</Label>
@@ -38,7 +39,6 @@ export default function Login({ status, canResetPassword, canRegister }: LoginPr
                   name="email"
                   required
                   autoFocus
-                  tabIndex={1}
                   autoComplete="email"
                   placeholder="email@example.com"
                 />
@@ -48,18 +48,17 @@ export default function Login({ status, canResetPassword, canRegister }: LoginPr
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  {canResetPassword && (
-                    <TextLink href={request()} className="ml-auto text-sm" tabIndex={5}>
+                  {canResetPassword ? (
+                    <TextLink href={request()} className="ml-auto text-sm">
                       Forgot password?
                     </TextLink>
-                  )}
+                  ) : null}
                 </div>
                 <Input
                   id="password"
                   type="password"
                   name="password"
                   required
-                  tabIndex={2}
                   autoComplete="current-password"
                   placeholder="Password"
                 />
@@ -67,37 +66,33 @@ export default function Login({ status, canResetPassword, canRegister }: LoginPr
               </div>
 
               <div className="flex items-center space-x-3">
-                <Checkbox id="remember" name="remember" tabIndex={3} />
+                <Checkbox id="remember" name="remember" />
                 <Label htmlFor="remember">Remember me</Label>
               </div>
 
               <Button
                 type="submit"
                 className="mt-4 w-full"
-                tabIndex={4}
                 disabled={processing}
                 data-test="login-button"
               >
-                {processing && <Spinner />}
+                {processing ? <Spinner /> : null}
                 Log in
               </Button>
             </div>
 
-            {canRegister && (
+            {canRegister ? (
               <div className="text-center text-sm text-muted-foreground">
-                Don't have an account?{" "}
-                <TextLink href={register()} tabIndex={5}>
-                  Sign up
-                </TextLink>
+                Don&lsquo;t have an account? <TextLink href={register()}>Sign up</TextLink>
               </div>
-            )}
-          </>
+            ) : null}
+          </Fragment>
         )}
       </Form>
 
-      {status && (
+      {status ? (
         <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>
-      )}
+      ) : null}
     </AuthLayout>
   );
 }
