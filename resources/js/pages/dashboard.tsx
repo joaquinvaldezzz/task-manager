@@ -1,34 +1,31 @@
-import { Head, useForm } from "@inertiajs/react";
+import { Head, router, useForm } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
-import { dashboard } from "@/routes";
+import { Trash } from "lucide-react";
 
-import type { BreadcrumbItem } from "@/types";
+import { Button } from "@/components/ui/button";
+import { Card, CardDescription, CardHeader, CardPanel, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Form } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { toastManager } from "@/components/ui/toast";
+
 import type { FormEvent } from "react";
 
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: "Dashboard",
-    href: dashboard().url,
-  },
-];
-
 interface DashboardProps {
-  auth: {
-    user: {
-      id: number;
-      name: string;
-      email: string;
-    };
-  };
   tasks: {
     id: number;
     title: string;
     description?: string;
     completed: boolean;
+    created_at: string;
+    updated_at: string;
   }[];
 }
 
-export default function Dashboard({ auth, tasks }: DashboardProps) {
+export default function Dashboard({ tasks }: DashboardProps) {
   const { data, setData, post, processing, errors, reset } = useForm({
     title: "",
     description: "",
@@ -37,64 +34,113 @@ export default function Dashboard({ auth, tasks }: DashboardProps) {
   const submit = (e: FormEvent) => {
     e.preventDefault();
     post("/tasks", {
-      onSuccess: () => reset(),
+      onSuccess: () => {
+        toastManager.add({
+          title: "Task successfully added!",
+        });
+        reset();
+      },
+    });
+  };
+
+  const toggleTask = (taskId: number, completed: boolean) => {
+    router.put(
+      `/tasks/${taskId}`,
+      {
+        completed,
+      },
+      {
+        // preserveScroll: true,
+        onSuccess: () => {
+          toastManager.add({
+            title: "Task status successfully updated!",
+          });
+        },
+      },
+    );
+  };
+
+  const deleteTask = (taskId: number) => {
+    router.delete(`/tasks/${taskId}`, {
+      onSuccess: () => {
+        toastManager.add({
+          title: "Task successfully deleted!",
+        });
+      },
     });
   };
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs}>
+    <AppLayout>
       <Head title="Dashboard" />
-      <div className="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4">
-        <div className="mx-auto max-w-3xl p-6">
-          <h1 className="mb-4 text-2xl font-bold">My Tasks</h1>
 
-          {/* Task Form */}
-          <form onSubmit={submit} className="mb-6 space-y-4">
-            <div>
-              <input
-                type="text"
-                className="w-full rounded border px-3 py-2"
-                placeholder="Task title"
-                value={data.title}
-                onChange={(e) => setData("title", e.target.value)}
-              />
-              {errors.title ? (
-                <div className="mt-1 text-sm text-red-500">{errors.title}</div>
-              ) : null}
-            </div>
+      <div className="mx-auto max-w-prose p-4">
+        <Card>
+          <CardHeader>
+            <CardTitle>Create a new task</CardTitle>
+            <CardDescription>Create one by completing this form.</CardDescription>
+          </CardHeader>
+          <CardPanel>
+            <Form onSubmit={submit} errors={errors}>
+              <Field name="title" disabled={processing}>
+                <FieldLabel>Task</FieldLabel>
+                <Input
+                  type="text"
+                  value={data.title}
+                  onChange={(event) => setData("title", event.target.value)}
+                />
+                {errors.title ? <FieldError>{errors.title}</FieldError> : null}
+              </Field>
 
-            <div>
-              <textarea
-                className="w-full rounded border px-3 py-2"
-                placeholder="Description (optional)"
-                value={data.description}
-                onChange={(e) => setData("description", e.target.value)}
-              />
-            </div>
+              <Field name="description" disabled={processing}>
+                <FieldLabel>Description (optional)</FieldLabel>
+                <Textarea
+                  value={data.description}
+                  onChange={(e) => setData("description", e.target.value)}
+                />
+              </Field>
 
-            <button
-              type="submit"
-              disabled={processing}
-              className="rounded bg-blue-600 px-4 py-2 text-white"
-            >
-              Add Task
-            </button>
-          </form>
+              <Button type="submit" disabled={processing}>
+                Add Task
+              </Button>
+            </Form>
+          </CardPanel>
+        </Card>
 
-          {/* Task List */}
-          <ul className="space-y-2">
-            {tasks.map((task) => (
-              <li key={task.id} className="flex items-center justify-between rounded border p-3">
-                <div>
-                  <p className={task.completed ? "text-gray-500 line-through" : ""}>{task.title}</p>
-                  {task.description ? (
-                    <p className="text-sm text-gray-600">{task.description}</p>
-                  ) : null}
+        <ul className="mt-8 space-y-3">
+          {tasks.map((task) => (
+            <li className="flex items-center justify-between" key={task.id}>
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  className="mt-0.5"
+                  id={task.id.toString()}
+                  checked={task.completed}
+                  onCheckedChange={(checked) => toggleTask(task.id, Boolean(checked))}
+                />
+                <div className="flex flex-col gap-1">
+                  <div className="flex gap-2">
+                    <Label htmlFor={task.id.toString()}>{task.title}</Label>
+                    <p className="text-sm">
+                      {new Date(task.created_at).toLocaleString("en-US", {
+                        month: "2-digit",
+                        day: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        // hour12: false,
+                      })}
+                    </p>
+                  </div>
+                  <p className="text-xs text-muted-foreground">{task.description}</p>
                 </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+              </div>
+
+              <Button variant="destructive-outline" size="icon" onClick={() => deleteTask(task.id)}>
+                <Trash />
+              </Button>
+            </li>
+          ))}
+        </ul>
       </div>
     </AppLayout>
   );
