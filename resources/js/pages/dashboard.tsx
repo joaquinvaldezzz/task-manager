@@ -9,20 +9,22 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
 import { toastManager } from "@/components/ui/toast";
 
 import type { FormEvent } from "react";
+import type { Task } from "@/types/task";
 
 interface DashboardProps {
-  tasks: {
-    id: number;
-    title: string;
-    description?: string;
-    completed: boolean;
-    created_at: string;
-    updated_at: string;
-  }[];
+  tasks: Task[];
 }
 
 export default function Dashboard({ tasks }: DashboardProps) {
@@ -37,6 +39,7 @@ export default function Dashboard({ tasks }: DashboardProps) {
       onSuccess: () => {
         toastManager.add({
           title: "Task successfully added!",
+          type: "success",
         });
         reset();
       },
@@ -53,7 +56,9 @@ export default function Dashboard({ tasks }: DashboardProps) {
         // preserveScroll: true,
         onSuccess: () => {
           toastManager.add({
-            title: "Task status successfully updated!",
+            title: "Task status updated!",
+            type: "success",
+            description: completed ? "Task marked as completed." : "Task marked as incomplete.",
           });
         },
       },
@@ -65,6 +70,8 @@ export default function Dashboard({ tasks }: DashboardProps) {
       onSuccess: () => {
         toastManager.add({
           title: "Task successfully deleted!",
+          type: "success",
+          description: "The task has been removed.",
         });
       },
     });
@@ -74,7 +81,7 @@ export default function Dashboard({ tasks }: DashboardProps) {
     <AppLayout>
       <Head title="Dashboard" />
 
-      <div className="mx-auto max-w-prose p-4">
+      <div className="mx-auto max-w-prose space-y-8 p-4">
         <Card>
           <CardHeader>
             <CardTitle>Create a new task</CardTitle>
@@ -107,40 +114,53 @@ export default function Dashboard({ tasks }: DashboardProps) {
           </CardPanel>
         </Card>
 
-        <ul className="mt-8 space-y-3">
-          {tasks.map((task) => (
-            <li className="flex items-center justify-between" key={task.id}>
-              <div className="flex items-start gap-2">
-                <Checkbox
-                  className="mt-0.5"
-                  id={task.id.toString()}
-                  checked={task.completed}
-                  onCheckedChange={(checked) => toggleTask(task.id, Boolean(checked))}
-                />
-                <div className="flex flex-col gap-1">
-                  <div className="flex gap-2">
-                    <Label htmlFor={task.id.toString()}>{task.title}</Label>
-                    <p className="text-sm">
-                      {new Date(task.created_at).toLocaleString("en-US", {
-                        month: "2-digit",
-                        day: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        // hour12: false,
-                      })}
-                    </p>
-                  </div>
-                  <p className="text-xs text-muted-foreground">{task.description}</p>
-                </div>
-              </div>
-
-              <Button variant="destructive-outline" size="icon" onClick={() => deleteTask(task.id)}>
-                <Trash />
-              </Button>
-            </li>
-          ))}
-        </ul>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Done</TableHead>
+              <TableHead>Task</TableHead>
+              <TableHead>Description</TableHead>
+              <TableHead>Created</TableHead>
+              <TableHead className="text-right">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {tasks.map((task) => (
+              <TableRow key={task.id}>
+                <TableCell>
+                  <Checkbox
+                    id={task.id.toString()}
+                    checked={task.completed}
+                    onCheckedChange={(checked) => toggleTask(task.id, Boolean(checked))}
+                  />
+                </TableCell>
+                <TableCell className="font-medium">
+                  <Label htmlFor={task.id.toString()}>{task.title}</Label>
+                </TableCell>
+                <TableCell className="text-muted-foreground">{task.description ?? "-"}</TableCell>
+                <TableCell className="text-sm text-muted-foreground tabular-nums">
+                  {new Date(task.created_at).toLocaleString("en-US", {
+                    month: "2-digit",
+                    day: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button
+                    aria-label={`Delete task #${task.id}`}
+                    variant="destructive-outline"
+                    size="icon"
+                    onClick={() => deleteTask(task.id)}
+                  >
+                    <Trash />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </div>
     </AppLayout>
   );
