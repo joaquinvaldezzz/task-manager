@@ -1,7 +1,4 @@
-import { type ComponentPropsWithoutRef } from "react";
-import { type NavItem } from "@/types";
-
-import { toUrl } from "@/lib/utils";
+import { cn, toUrl } from "@/lib/utils";
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -11,6 +8,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Icon } from "@/components/icon";
 
+import type { NavItem } from "@/types";
+import type { ComponentPropsWithoutRef } from "react";
+
 export function NavFooter({
   items,
   className,
@@ -19,19 +19,18 @@ export function NavFooter({
   items: NavItem[];
 }) {
   return (
-    <SidebarGroup {...props} className={`group-data-[collapsible=icon]:p-0 ${className || ""}`}>
+    <SidebarGroup className={cn("group-data-[collapsible=icon]:p-0", className)} {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton
-                asChild
                 className="text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
+                // eslint-disable-next-line jsx-a11y/control-has-associated-label, jsx-a11y/anchor-has-content
+                render={<a href={toUrl(item.href)} target="_blank" rel="noopener noreferrer" />}
               >
-                <a href={toUrl(item.href)} target="_blank" rel="noopener noreferrer">
-                  {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
-                  <span>{item.title}</span>
-                </a>
+                {item.icon ? <Icon iconNode={item.icon} className="size-5" /> : null}
+                <span>{item.title}</span>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}

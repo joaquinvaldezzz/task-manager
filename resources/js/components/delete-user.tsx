@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Form } from "@inertiajs/react";
 import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
 
@@ -33,10 +33,8 @@ export default function DeleteUser() {
         </div>
 
         <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="destructive" data-test="delete-user-button">
-              Delete account
-            </Button>
+          <DialogTrigger render={<Button variant="destructive" data-test="delete-user-button" />}>
+            Delete account
           </DialogTrigger>
           <DialogContent>
             <DialogTitle>Are you sure you want to delete your account?</DialogTitle>
@@ -56,7 +54,7 @@ export default function DeleteUser() {
               className="space-y-6"
             >
               {({ resetAndClearErrors, processing, errors }) => (
-                <>
+                <Fragment>
                   <div className="grid gap-2">
                     <Label htmlFor="password" className="sr-only">
                       Password
@@ -75,19 +73,22 @@ export default function DeleteUser() {
                   </div>
 
                   <DialogFooter className="gap-2">
-                    <DialogClose asChild>
-                      <Button variant="secondary" onClick={() => resetAndClearErrors()}>
-                        Cancel
-                      </Button>
+                    <DialogClose
+                      render={<Button variant="secondary" onClick={() => resetAndClearErrors()} />}
+                    >
+                      Cancel
                     </DialogClose>
 
-                    <Button variant="destructive" disabled={processing} asChild>
-                      <button type="submit" data-test="confirm-delete-user-button">
-                        Delete account
-                      </button>
+                    <Button
+                      variant="destructive"
+                      disabled={processing}
+                      type="submit"
+                      data-test="confirm-delete-user-button"
+                    >
+                      Delete account
                     </Button>
                   </DialogFooter>
-                </>
+                </Fragment>
               )}
             </Form>
           </DialogContent>

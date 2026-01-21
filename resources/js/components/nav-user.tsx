@@ -1,21 +1,18 @@
 import { usePage } from "@inertiajs/react";
-import { type SharedData } from "@/types";
 import { ChevronsUpDown } from "lucide-react";
 
 import { useIsMobile } from "@/hooks/use-mobile";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Menu, MenuPopup, MenuTrigger } from "@/components/ui/menu";
 import {
   SidebarMenu,
-  SidebarMenuButton,
+  SidebarMenuBadge,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
 import { UserInfo } from "@/components/user-info";
 import { UserMenuContent } from "@/components/user-menu-content";
+
+import type { SharedData } from "@/types";
 
 export function NavUser() {
   const { auth } = usePage<SharedData>().props;
@@ -25,25 +22,25 @@ export function NavUser() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
+        <Menu>
+          <MenuTrigger>
+            {/* <SidebarMenuButton
               size="lg"
               className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
               data-test="sidebar-menu-button"
-            >
-              <UserInfo user={auth.user} />
-              <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
+            ></SidebarMenuButton> */}
+            <UserInfo user={auth.user} />
+            <ChevronsUpDown className="ml-auto size-4" />
+          </MenuTrigger>
+          <MenuPopup>
+            <UserMenuContent user={auth.user} />
+          </MenuPopup>
+          {/* <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             align="end"
             side={isMobile ? "bottom" : state === "collapsed" ? "left" : "bottom"}
-          >
-            <UserMenuContent user={auth.user} />
-          </DropdownMenuContent>
-        </DropdownMenu>
+          ></DropdownMenuContent> */}
+        </Menu>
       </SidebarMenuItem>
     </SidebarMenu>
   );

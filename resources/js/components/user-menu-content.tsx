@@ -1,17 +1,14 @@
+import { Fragment } from "react";
 import { Link, router } from "@inertiajs/react";
 import { logout } from "@/routes";
 import { edit } from "@/routes/profile";
-import { type User } from "@/types";
 import { LogOut, Settings } from "lucide-react";
 
 import { useMobileNavigation } from "@/hooks/use-mobile-navigation";
-import {
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+import { MenuGroup, MenuGroupLabel, MenuItem, MenuSeparator } from "@/components/ui/menu";
 import { UserInfo } from "@/components/user-info";
+
+import type { User } from "@/types";
 
 interface UserMenuContentProps {
   user: User;
@@ -26,34 +23,43 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
   };
 
   return (
-    <>
-      <DropdownMenuLabel className="p-0 font-normal">
+    <Fragment>
+      <MenuGroupLabel className="p-0 font-normal">
         <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-          <UserInfo user={user} showEmail={true} />
+          <UserInfo user={user} showEmail />
         </div>
-      </DropdownMenuLabel>
-      <DropdownMenuSeparator />
-      <DropdownMenuGroup>
-        <DropdownMenuItem asChild>
-          <Link className="block w-full cursor-pointer" href={edit()} prefetch onClick={cleanup}>
-            <Settings className="mr-2" />
-            Settings
-          </Link>
-        </DropdownMenuItem>
-      </DropdownMenuGroup>
-      <DropdownMenuSeparator />
-      <DropdownMenuItem asChild>
-        <Link
-          className="block w-full cursor-pointer"
-          href={logout()}
-          as="button"
-          onClick={handleLogout}
-          data-test="logout-button"
+      </MenuGroupLabel>
+      <MenuSeparator />
+      <MenuGroup>
+        <MenuItem
+          render={
+            <Link
+              className="block w-full cursor-pointer"
+              href={edit()}
+              prefetch
+              onClick={cleanup}
+            />
+          }
         >
-          <LogOut className="mr-2" />
-          Log out
-        </Link>
-      </DropdownMenuItem>
-    </>
+          <Settings className="mr-2" />
+          Settings
+        </MenuItem>
+      </MenuGroup>
+      <MenuSeparator />
+      <MenuItem
+        render={
+          <Link
+            className="block w-full cursor-pointer"
+            href={logout()}
+            as="button"
+            onClick={handleLogout}
+            data-test="logout-button"
+          />
+        }
+      >
+        <LogOut className="mr-2" />
+        Log out
+      </MenuItem>
+    </Fragment>
   );
 }
