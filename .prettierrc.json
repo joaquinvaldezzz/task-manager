@@ -4,6 +4,7 @@
     "@ianvs/prettier-plugin-sort-imports",
     "@prettier/plugin-php",
     "@shufo/prettier-plugin-blade",
+    "@prettier/plugin-xml",
     "prettier-plugin-tailwindcss"
   ],
   "overrides": [
