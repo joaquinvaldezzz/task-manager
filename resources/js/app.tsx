@@ -1,11 +1,13 @@
-import "../css/app.css";
-
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
+import { AnchoredToastProvider, ToastProvider } from "@/components/ui/toast";
+
 import { initializeTheme } from "./hooks/use-appearance";
+
+import "../css/app.css";
 
 const appName: string = import.meta.env.VITE_APP_NAME ?? "Laravel";
 
@@ -18,7 +20,11 @@ createInertiaApp({
 
     root.render(
       <StrictMode>
-        <App {...props} />
+        <ToastProvider>
+          <AnchoredToastProvider>
+            <App {...props} />
+          </AnchoredToastProvider>
+        </ToastProvider>
       </StrictMode>,
     );
   },
