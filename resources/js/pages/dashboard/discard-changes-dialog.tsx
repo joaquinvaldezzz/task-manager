@@ -10,18 +10,14 @@ import {
 import { Button } from "@/components/ui/button";
 
 interface DiscardChangesDialogProps {
-  isDialogOpen: boolean;
+  open: boolean;
   onOpenChange: (open: boolean) => void;
   onDiscard: () => void;
 }
 
-export function DiscardChangesDialog({
-  isDialogOpen,
-  onOpenChange,
-  onDiscard,
-}: DiscardChangesDialogProps) {
+export function DiscardChangesDialog({ open, onOpenChange, onDiscard }: DiscardChangesDialogProps) {
   return (
-    <AlertDialog open={isDialogOpen} onOpenChange={onOpenChange}>
+    <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogPopup>
         <AlertDialogHeader>
           <AlertDialogTitle>Discard changes?</AlertDialogTitle>

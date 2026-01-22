@@ -113,7 +113,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
       </DialogPopup>
 
       <DiscardChangesDialog
-        isDialogOpen={isDiscardConfirmOpen}
+        open={isDiscardConfirmOpen}
         onOpenChange={setIsDiscardConfirmOpen}
         onDiscard={() => {
           setIsDiscardConfirmOpen(false);
