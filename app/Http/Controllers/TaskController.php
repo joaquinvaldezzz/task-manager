@@ -12,7 +12,7 @@ class TaskController extends Controller
     {
         $tasks = auth()->user()->tasks()->latest()->get();
 
-        return Inertia::render('dashboard', [
+        return Inertia::render('dashboard/index', [
             'tasks' => $tasks,
         ]);
     }
