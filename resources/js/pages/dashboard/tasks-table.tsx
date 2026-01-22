@@ -2,6 +2,7 @@ import { Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Frame } from "@/components/ui/frame";
 import {
   Table,
   TableBody,
@@ -24,7 +25,7 @@ interface TasksTableProps {
 
 export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
   return (
-    <div>
+    <Frame>
       <Table>
         <TableHeader>
           <TableRow>
@@ -75,6 +76,6 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
           ))}
         </TableBody>
       </Table>
-    </div>
+    </Frame>
   );
 }
