@@ -53,9 +53,9 @@ export default function TwoFactorChallenge() {
           resetOnSuccess={!showRecoveryInput}
         >
           {({ errors, processing, clearErrors }) => (
-            <>
+            <React.Fragment>
               {showRecoveryInput ? (
-                <>
+                <React.Fragment>
                   <Input
                     name="recovery_code"
                     type="text"
@@ -64,7 +64,7 @@ export default function TwoFactorChallenge() {
                     required
                   />
                   <InputError message={errors.recovery_code} />
-                </>
+                </React.Fragment>
               ) : (
                 <div className="flex flex-col items-center justify-center space-y-3 text-center">
                   <div className="flex w-full items-center justify-center">
@@ -101,7 +101,7 @@ export default function TwoFactorChallenge() {
                   {authConfigContent.toggleText}
                 </button>
               </div>
-            </>
+            </React.Fragment>
           )}
         </Form>
       </div>

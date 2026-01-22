@@ -25,16 +25,16 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
       <Form {...send.form()} className="space-y-6 text-center">
         {({ processing }) => (
-          <>
+          <React.Fragment>
             <Button disabled={processing} variant="secondary">
-              {processing && <Spinner />}
+              {processing ? <Spinner /> : null}
               Resend verification email
             </Button>
 
             <TextLink href={logout()} className="mx-auto block text-sm">
               Log out
             </TextLink>
-          </>
+          </React.Fragment>
         )}
       </Form>
     </AuthLayout>

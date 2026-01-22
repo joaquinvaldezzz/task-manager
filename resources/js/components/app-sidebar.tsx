@@ -1,6 +1,5 @@
 import { Link } from "@inertiajs/react";
 import { dashboard } from "@/routes";
-import { type NavItem } from "@/types";
 import { BookOpen, Folder, LayoutGrid } from "lucide-react";
 
 import {
@@ -15,6 +14,8 @@ import {
 import { NavFooter } from "@/components/nav-footer";
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
+
+import type { NavItem } from "@/types";
 
 import AppLogo from "./app-logo";
 

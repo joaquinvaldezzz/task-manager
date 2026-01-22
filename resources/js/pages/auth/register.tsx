@@ -24,7 +24,7 @@ export default function Register() {
         className="flex flex-col gap-6"
       >
         {({ processing, errors }) => (
-          <>
+          <React.Fragment>
             <div className="grid gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
@@ -89,7 +89,7 @@ export default function Register() {
                 tabIndex={5}
                 data-test="register-user-button"
               >
-                {processing && <Spinner />}
+                {processing ? <Spinner /> : null}
                 Create account
               </Button>
             </div>
@@ -100,7 +100,7 @@ export default function Register() {
                 Log in
               </TextLink>
             </div>
-          </>
+          </React.Fragment>
         )}
       </Form>
     </AuthLayout>

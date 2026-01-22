@@ -59,11 +59,11 @@ function TwoFactorSetupStep({
   const IconComponent = copiedText === manualSetupKey ? Check : Copy;
 
   return (
-    <>
+    <React.Fragment>
       {errors?.length ? (
         <AlertError errors={errors} />
       ) : (
-        <>
+        <React.Fragment>
           <div className="mx-auto flex max-w-md overflow-hidden">
             <div className="mx-auto aspect-square w-64 rounded-lg border border-border">
               <div className="z-10 flex h-full w-full items-center justify-center p-5">
@@ -103,7 +103,7 @@ function TwoFactorSetupStep({
                   <Spinner />
                 </div>
               ) : (
-                <>
+                <React.Fragment>
                   <input
                     type="text"
                     readOnly
@@ -111,18 +111,18 @@ function TwoFactorSetupStep({
                     className="h-full w-full bg-background p-3 text-foreground outline-none"
                   />
                   <button
-                    onClick={() => copy(manualSetupKey)}
+                    onClick={async () => copy(manualSetupKey)}
                     className="border-l border-border px-3 hover:bg-muted"
                   >
                     <IconComponent className="w-4" />
                   </button>
-                </>
+                </React.Fragment>
               )}
             </div>
           </div>
-        </>
+        </React.Fragment>
       )}
-    </>
+    </React.Fragment>
   );
 }
 
@@ -151,46 +151,44 @@ function TwoFactorVerificationStep({
         processing: boolean;
         errors?: { confirmTwoFactorAuthentication?: { code?: string } };
       }) => (
-        <>
-          <div ref={pinInputContainerRef} className="relative w-full space-y-3">
-            <div className="flex w-full flex-col items-center space-y-3 py-2">
-              <InputOTP
-                id="otp"
-                name="code"
-                maxLength={OTP_MAX_LENGTH}
-                onChange={setCode}
-                disabled={processing}
-                pattern={REGEXP_ONLY_DIGITS}
-              >
-                <InputOTPGroup>
-                  {Array.from({ length: OTP_MAX_LENGTH }, (_, index) => (
-                    <InputOTPSlot key={index} index={index} />
-                  ))}
-                </InputOTPGroup>
-              </InputOTP>
-              <InputError message={errors?.confirmTwoFactorAuthentication?.code} />
-            </div>
-
-            <div className="flex w-full space-x-5">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                onClick={onBack}
-                disabled={processing}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1"
-                disabled={processing || code.length < OTP_MAX_LENGTH}
-              >
-                Confirm
-              </Button>
-            </div>
+        <div ref={pinInputContainerRef} className="relative w-full space-y-3">
+          <div className="flex w-full flex-col items-center space-y-3 py-2">
+            <InputOTP
+              id="otp"
+              name="code"
+              maxLength={OTP_MAX_LENGTH}
+              onChange={setCode}
+              disabled={processing}
+              pattern={REGEXP_ONLY_DIGITS}
+            >
+              <InputOTPGroup>
+                {Array.from({ length: OTP_MAX_LENGTH }, (_, index) => (
+                  <InputOTPSlot key={index} index={index} />
+                ))}
+              </InputOTPGroup>
+            </InputOTP>
+            <InputError message={errors?.confirmTwoFactorAuthentication?.code} />
           </div>
-        </>
+
+          <div className="flex w-full space-x-5">
+            <Button
+              type="button"
+              variant="outline"
+              className="flex-1"
+              onClick={onBack}
+              disabled={processing}
+            >
+              Back
+            </Button>
+            <Button
+              type="submit"
+              className="flex-1"
+              disabled={processing || code.length < OTP_MAX_LENGTH}
+            >
+              Confirm
+            </Button>
+          </div>
+        </div>
       )}
     </Form>
   );

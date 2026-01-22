@@ -3,7 +3,6 @@ import { Form, Head } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
 import { disable, enable, show } from "@/routes/two-factor";
-import { type BreadcrumbItem } from "@/types";
 import { ShieldBan, ShieldCheck } from "lucide-react";
 
 import { useTwoFactorAuth } from "@/hooks/use-two-factor-auth";
@@ -12,6 +11,8 @@ import { Button } from "@/components/ui/button";
 import HeadingSmall from "@/components/heading-small";
 import TwoFactorRecoveryCodes from "@/components/two-factor-recovery-codes";
 import TwoFactorSetupModal from "@/components/two-factor-setup-modal";
+
+import type { BreadcrumbItem } from "@/types";
 
 interface TwoFactorProps {
   requiresConfirmation?: boolean;

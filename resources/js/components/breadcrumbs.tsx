@@ -1,6 +1,5 @@
 import { Fragment } from "react";
 import { Link } from "@inertiajs/react";
-import { type BreadcrumbItem as BreadcrumbItemType } from "@/types";
 
 import {
   Breadcrumb,
@@ -11,9 +10,11 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
+import type { BreadcrumbItem as BreadcrumbItemType } from "@/types";
+
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
   return (
-    <>
+    <React.Fragment>
       {breadcrumbs.length > 0 && (
         <Breadcrumb>
           <BreadcrumbList>
@@ -37,6 +38,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
           </BreadcrumbList>
         </Breadcrumb>
       )}
-    </>
+    </React.Fragment>
   );
 }

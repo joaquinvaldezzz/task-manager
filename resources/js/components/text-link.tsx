@@ -1,7 +1,8 @@
-import { ComponentProps } from "react";
 import { Link } from "@inertiajs/react";
 
 import { cn } from "@/lib/utils";
+
+import type { ComponentProps } from "react";
 
 type LinkProps = ComponentProps<typeof Link>;
 

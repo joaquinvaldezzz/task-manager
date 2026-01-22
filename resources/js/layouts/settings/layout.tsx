@@ -1,16 +1,17 @@
-import { type PropsWithChildren } from "react";
 import { Link } from "@inertiajs/react";
 import { edit as editAppearance } from "@/routes/appearance";
 import { edit } from "@/routes/profile";
 import { show } from "@/routes/two-factor";
 import { edit as editPassword } from "@/routes/user-password";
-import { type NavItem } from "@/types";
 
 import { cn, toUrl } from "@/lib/utils";
 import { useActiveUrl } from "@/hooks/use-active-url";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Heading from "@/components/heading";
+
+import type { NavItem } from "@/types";
+import type { PropsWithChildren } from "react";
 
 const sidebarNavItems: NavItem[] = [
   {
@@ -61,7 +62,7 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
                 })}
               >
                 <Link href={item.href}>
-                  {item.icon && <item.icon className="h-4 w-4" />}
+                  {item.icon ? <item.icon className="h-4 w-4" /> : null}
                   {item.title}
                 </Link>
               </Button>

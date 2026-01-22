@@ -52,7 +52,7 @@ export default function Profile({
             className="space-y-6"
           >
             {({ processing, recentlySuccessful, errors }) => (
-              <>
+              <React.Fragment>
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
 
@@ -86,7 +86,7 @@ export default function Profile({
                   <InputError className="mt-2" message={errors.email} />
                 </div>
 
-                {mustVerifyEmail && auth.user.email_verified_at === null && (
+                {mustVerifyEmail && auth.user.email_verified_at === null ? (
                   <div>
                     <p className="-mt-4 text-sm text-muted-foreground">
                       Your email address is unverified.{" "}
@@ -105,7 +105,7 @@ export default function Profile({
                       </div>
                     )}
                   </div>
-                )}
+                ) : null}
 
                 <div className="flex items-center gap-4">
                   <Button disabled={processing} data-test="update-profile-button">
@@ -122,7 +122,7 @@ export default function Profile({
                     <p className="text-sm text-neutral-600">Saved</p>
                   </Transition>
                 </div>
-              </>
+              </React.Fragment>
             )}
           </Form>
         </div>

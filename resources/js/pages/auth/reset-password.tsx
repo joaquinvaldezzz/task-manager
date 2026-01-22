@@ -72,7 +72,7 @@ export default function ResetPassword({ token, email }: ResetPasswordProps) {
               disabled={processing}
               data-test="reset-password-button"
             >
-              {processing && <Spinner />}
+              {processing ? <Spinner /> : null}
               Reset password
             </Button>
           </div>

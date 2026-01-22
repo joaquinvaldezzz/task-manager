@@ -72,7 +72,7 @@ export default function TwoFactorRecoveryCodes({
             {codesAreVisible ? "Hide" : "View"} Recovery Codes
           </Button>
 
-          {canRegenerateCodes && (
+          {canRegenerateCodes ? (
             <Form
               {...regenerateRecoveryCodes.form()}
               options={{ preserveScroll: true }}
@@ -89,7 +89,7 @@ export default function TwoFactorRecoveryCodes({
                 </Button>
               )}
             </Form>
-          )}
+          ) : null}
         </div>
         <div
           id="recovery-codes-section"
@@ -100,7 +100,7 @@ export default function TwoFactorRecoveryCodes({
             {errors?.length ? (
               <AlertError errors={errors} />
             ) : (
-              <>
+              <React.Fragment>
                 <div
                   ref={codesSectionRef}
                   className="grid gap-1 rounded-lg bg-muted p-4 font-mono text-sm"
@@ -133,7 +133,7 @@ export default function TwoFactorRecoveryCodes({
                     <span className="font-bold">Regenerate Codes</span> above.
                   </p>
                 </div>
-              </>
+              </React.Fragment>
             )}
           </div>
         </div>
