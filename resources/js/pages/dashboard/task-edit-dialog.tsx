@@ -16,22 +16,35 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { toastManager } from "@/components/ui/toast";
 
 import type { FormEvent } from "react";
 import type { Task } from "@/types/task";
+
+import { DiscardChangesDialog } from "./discard-changes-dialog";
 
 interface TaskEditDialogProps {
   task: Task;
 }
 
 export function TaskEditDialog({ task }: TaskEditDialogProps) {
-  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
+  const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
 
   const { data, setData, put, processing, errors } = useForm({
     title: task.title,
     description: task.description ?? "",
   });
+
+  const hasChanges = task.title !== data.title || (task.description ?? "") !== data.description;
+
+  const handleReset = () => {
+    setData({
+      title: task.title,
+      description: task.description ?? "",
+    });
+  };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -43,16 +56,26 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
           title: "Task updated successfully!",
           type: "success",
         });
-        setIsDialogOpen((prev) => !prev);
+        setIsEditDialogOpen(false);
+      },
+      onError: () => {
+        toastManager.add({
+          title: "Failed to update task",
+          type: "error",
+        });
       },
     });
   };
 
   return (
     <Dialog
-      open={isDialogOpen}
+      open={isEditDialogOpen}
       onOpenChange={(event) => {
-        setIsDialogOpen(event);
+        if (!event && hasChanges) {
+          setIsDiscardConfirmOpen(true);
+        } else {
+          setIsEditDialogOpen(event);
+        }
       }}
     >
       <DialogTrigger className="hover:underline">{task.title}</DialogTrigger>
@@ -72,7 +95,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
 
             <Field name="description">
               <FieldLabel>Description</FieldLabel>
-              <Input
+              <Textarea
                 value={data.description}
                 onChange={(e) => setData("description", e.target.value)}
               />
@@ -82,12 +105,22 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
 
           <DialogFooter>
             <DialogClose render={<Button variant="ghost" />}>Close</DialogClose>
-            <Button type="submit" disabled={processing}>
+            <Button type="submit" disabled={processing || !hasChanges}>
               Save
             </Button>
           </DialogFooter>
         </Form>
       </DialogPopup>
+
+      <DiscardChangesDialog
+        isDialogOpen={isDiscardConfirmOpen}
+        onOpenChange={setIsDiscardConfirmOpen}
+        onDiscard={() => {
+          setIsDiscardConfirmOpen(false);
+          setIsEditDialogOpen(false);
+          handleReset();
+        }}
+      />
     </Dialog>
   );
 }
