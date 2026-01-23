@@ -25,7 +25,9 @@ export function DiscardChangesDialog({ open, onOpenChange, onDiscard }: DiscardC
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogClose render={<Button variant="ghost" />}>Go back</AlertDialogClose>
-          <Button onClick={onDiscard}>Discard</Button>
+          <Button variant="destructive" onClick={onDiscard}>
+            Discard
+          </Button>
         </AlertDialogFooter>
       </AlertDialogPopup>
     </AlertDialog>
