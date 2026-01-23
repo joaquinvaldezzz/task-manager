@@ -1,6 +1,5 @@
-import { Trash } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Frame } from "@/components/ui/frame";
 import {
@@ -14,6 +13,7 @@ import {
 
 import type { Task } from "@/types/task";
 
+import { TaskDeleteDialog } from "./task-delete-dialog";
 import { TaskEditDialog } from "./task-edit-dialog";
 import { formatDate } from "./utils";
 
@@ -24,6 +24,7 @@ interface TasksTableProps {
 }
 
 export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
+  const [deleteTaskId, setDeleteTaskId] = useState<number | null>(null);
   return (
     <Frame>
       <Table>
@@ -63,14 +64,12 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
               </TableCell>
 
               <TableCell className="text-right">
-                <Button
-                  aria-label={`Delete task #${task.id}`}
-                  variant="destructive-outline"
-                  size="icon"
-                  onClick={() => onDelete(task.id)}
-                >
-                  <Trash />
-                </Button>
+                <TaskDeleteDialog
+                  taskId={task.id}
+                  isOpen={deleteTaskId === task.id}
+                  onOpenChange={(open) => setDeleteTaskId(open ? task.id : null)}
+                  onDelete={onDelete}
+                />
               </TableCell>
             </TableRow>
           ))}
