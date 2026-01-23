@@ -80,7 +80,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
     >
       <DialogTrigger className="hover:underline">{task.title}</DialogTrigger>
       <DialogPopup>
-        <Form onSubmit={submit} errors={errors}>
+        <Form className="gap-0" onSubmit={submit} errors={errors}>
           <DialogHeader>
             <DialogTitle>Edit task #{task.id}</DialogTitle>
             <DialogDescription>Make changes here and click save.</DialogDescription>
