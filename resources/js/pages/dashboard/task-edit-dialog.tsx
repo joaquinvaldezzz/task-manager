@@ -104,7 +104,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
           </DialogPanel>
 
           <DialogFooter>
-            <DialogClose render={<Button variant="ghost" />}>Close</DialogClose>
+            <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
             <Button type="submit" disabled={processing || !hasChanges}>
               Save
             </Button>
