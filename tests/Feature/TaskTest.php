@@ -21,7 +21,7 @@ test('dashboard displays tasks', function () {
         ->get(route('dashboard'))
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('dashboard')
+                ->component('dashboard/index')
                 ->has('tasks', 3)
                 ->where('tasks.0.id', $task3->id)
                 ->where('tasks.1.id', $task2->id)
