@@ -1,8 +1,8 @@
+import { Fragment } from "react";
 import { Form, Head, Link, usePage } from "@inertiajs/react";
 import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
-import { edit } from "@/routes/profile";
 import { send } from "@/routes/verification";
 import { Transition } from "@headlessui/react";
 
@@ -13,18 +13,11 @@ import DeleteUser from "@/components/delete-user";
 import HeadingSmall from "@/components/heading-small";
 import InputError from "@/components/input-error";
 
-import type { BreadcrumbItem, SharedData } from "@/types";
-
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: "Profile settings",
-    href: edit().url,
-  },
-];
+import type { SharedData } from "@/types";
 
 export default function Profile({
   mustVerifyEmail,
-  status,
+  status = undefined,
 }: {
   mustVerifyEmail: boolean;
   status?: string;
@@ -32,7 +25,7 @@ export default function Profile({
   const { auth } = usePage<SharedData>().props;
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs}>
+    <AppLayout>
       <Head title="Profile settings" />
 
       <h1 className="sr-only">Profile Settings</h1>
@@ -52,7 +45,7 @@ export default function Profile({
             className="space-y-6"
           >
             {({ processing, recentlySuccessful, errors }) => (
-              <React.Fragment>
+              <Fragment>
                 <div className="grid gap-2">
                   <Label htmlFor="name">Name</Label>
 
@@ -122,7 +115,7 @@ export default function Profile({
                     <p className="text-sm text-neutral-600">Saved</p>
                   </Transition>
                 </div>
-              </React.Fragment>
+              </Fragment>
             )}
           </Form>
         </div>

@@ -14,21 +14,19 @@ import type { BreadcrumbItem as BreadcrumbItemType } from "@/types";
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
   return (
-    <React.Fragment>
+    <Fragment>
       {breadcrumbs.length > 0 && (
         <Breadcrumb>
           <BreadcrumbList>
             {breadcrumbs.map((item, index) => {
               const isLast = index === breadcrumbs.length - 1;
               return (
-                <Fragment key={index}>
+                <Fragment key={`breadcrumb-${index + 1}`}>
                   <BreadcrumbItem>
                     {isLast ? (
                       <BreadcrumbPage>{item.title}</BreadcrumbPage>
                     ) : (
-                      <BreadcrumbLink asChild>
-                        <Link href={item.href}>{item.title}</Link>
-                      </BreadcrumbLink>
+                      <BreadcrumbLink render={<Link href={item.href}>{item.title}</Link>} />
                     )}
                   </BreadcrumbItem>
                   {!isLast && <BreadcrumbSeparator />}
@@ -38,6 +36,6 @@ export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[]
           </BreadcrumbList>
         </Breadcrumb>
       )}
-    </React.Fragment>
+    </Fragment>
   );
 }

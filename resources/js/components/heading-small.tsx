@@ -1,6 +1,6 @@
 export default function HeadingSmall({
   title,
-  description,
+  description = undefined,
 }: {
   title: string;
   description?: string;

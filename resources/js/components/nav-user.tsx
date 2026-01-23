@@ -6,6 +6,7 @@ import { Menu, MenuPopup, MenuTrigger } from "@/components/ui/menu";
 import {
   SidebarMenu,
   SidebarMenuBadge,
+  SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
@@ -23,23 +24,21 @@ export function NavUser() {
     <SidebarMenu>
       <SidebarMenuItem>
         <Menu>
-          <MenuTrigger>
-            {/* <SidebarMenuButton
-              size="lg"
-              className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
-              data-test="sidebar-menu-button"
-            ></SidebarMenuButton> */}
-            <UserInfo user={auth.user} />
-            <ChevronsUpDown className="ml-auto size-4" />
-          </MenuTrigger>
+          <MenuTrigger
+            render={
+              <SidebarMenuButton
+                size="lg"
+                className="group text-sidebar-accent-foreground data-[state=open]:bg-sidebar-accent"
+                data-test="sidebar-menu-button"
+              >
+                <UserInfo user={auth.user} />
+                <ChevronsUpDown className="ml-auto size-4" />
+              </SidebarMenuButton>
+            }
+          />
           <MenuPopup>
             <UserMenuContent user={auth.user} />
           </MenuPopup>
-          {/* <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            align="end"
-            side={isMobile ? "bottom" : state === "collapsed" ? "left" : "bottom"}
-          ></DropdownMenuContent> */}
         </Menu>
       </SidebarMenuItem>
     </SidebarMenu>

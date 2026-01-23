@@ -1,4 +1,5 @@
 // Components
+import { Fragment } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { logout } from "@/routes";
@@ -8,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import TextLink from "@/components/text-link";
 
-export default function VerifyEmail({ status }: { status?: string }) {
+export default function VerifyEmail({ status = undefined }: { status?: string }) {
   return (
     <AuthLayout
       title="Verify email"
@@ -25,7 +26,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
 
       <Form {...send.form()} className="space-y-6 text-center">
         {({ processing }) => (
-          <React.Fragment>
+          <Fragment>
             <Button disabled={processing} variant="secondary">
               {processing ? <Spinner /> : null}
               Resend verification email
@@ -34,7 +35,7 @@ export default function VerifyEmail({ status }: { status?: string }) {
             <TextLink href={logout()} className="mx-auto block text-sm">
               Log out
             </TextLink>
-          </React.Fragment>
+          </Fragment>
         )}
       </Form>
     </AuthLayout>

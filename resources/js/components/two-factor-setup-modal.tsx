@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Form } from "@inertiajs/react";
 import { confirm } from "@/routes/two-factor";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
@@ -59,11 +59,11 @@ function TwoFactorSetupStep({
   const IconComponent = copiedText === manualSetupKey ? Check : Copy;
 
   return (
-    <React.Fragment>
+    <Fragment>
       {errors?.length ? (
         <AlertError errors={errors} />
       ) : (
-        <React.Fragment>
+        <Fragment>
           <div className="mx-auto flex max-w-md overflow-hidden">
             <div className="mx-auto aspect-square w-64 rounded-lg border border-border">
               <div className="z-10 flex h-full w-full items-center justify-center p-5">
@@ -103,7 +103,7 @@ function TwoFactorSetupStep({
                   <Spinner />
                 </div>
               ) : (
-                <React.Fragment>
+                <Fragment>
                   <input
                     type="text"
                     readOnly
@@ -111,18 +111,19 @@ function TwoFactorSetupStep({
                     className="h-full w-full bg-background p-3 text-foreground outline-none"
                   />
                   <button
-                    onClick={async () => copy(manualSetupKey)}
                     className="border-l border-border px-3 hover:bg-muted"
+                    type="button"
+                    onClick={async () => copy(manualSetupKey)}
                   >
                     <IconComponent className="w-4" />
                   </button>
-                </React.Fragment>
+                </Fragment>
               )}
             </div>
           </div>
-        </React.Fragment>
+        </Fragment>
       )}
-    </React.Fragment>
+    </Fragment>
   );
 }
 

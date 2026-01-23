@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { Form } from "@inertiajs/react";
 import { regenerateRecoveryCodes } from "@/routes/two-factor";
 import { Eye, EyeOff, LockKeyhole, RefreshCw } from "lucide-react";
@@ -100,7 +100,7 @@ export default function TwoFactorRecoveryCodes({
             {errors?.length ? (
               <AlertError errors={errors} />
             ) : (
-              <React.Fragment>
+              <Fragment>
                 <div
                   ref={codesSectionRef}
                   className="grid gap-1 rounded-lg bg-muted p-4 font-mono text-sm"
@@ -109,7 +109,11 @@ export default function TwoFactorRecoveryCodes({
                 >
                   {recoveryCodesList.length ? (
                     recoveryCodesList.map((code, index) => (
-                      <div key={index} role="listitem" className="select-text">
+                      <div
+                        key={`recovery-code-${index + 1}`}
+                        role="listitem"
+                        className="select-text"
+                      >
                         {code}
                       </div>
                     ))
@@ -133,7 +137,7 @@ export default function TwoFactorRecoveryCodes({
                     <span className="font-bold">Regenerate Codes</span> above.
                   </p>
                 </div>
-              </React.Fragment>
+              </Fragment>
             )}
           </div>
         </div>

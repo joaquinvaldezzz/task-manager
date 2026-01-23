@@ -1,9 +1,8 @@
-import { useRef } from "react";
+import { Fragment, useRef } from "react";
 import { Form, Head } from "@inertiajs/react";
 import PasswordController from "@/actions/App/Http/Controllers/Settings/PasswordController";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
-import { edit } from "@/routes/user-password";
 import { Transition } from "@headlessui/react";
 
 import { Button } from "@/components/ui/button";
@@ -12,21 +11,12 @@ import { Label } from "@/components/ui/label";
 import HeadingSmall from "@/components/heading-small";
 import InputError from "@/components/input-error";
 
-import type { BreadcrumbItem } from "@/types";
-
-const breadcrumbs: BreadcrumbItem[] = [
-  {
-    title: "Password settings",
-    href: edit().url,
-  },
-];
-
 export default function Password() {
   const passwordInput = useRef<HTMLInputElement>(null);
   const currentPasswordInput = useRef<HTMLInputElement>(null);
 
   return (
-    <AppLayout breadcrumbs={breadcrumbs}>
+    <AppLayout>
       <Head title="Password settings" />
 
       <h1 className="sr-only">Password Settings</h1>
@@ -57,7 +47,7 @@ export default function Password() {
             className="space-y-6"
           >
             {({ errors, processing, recentlySuccessful }) => (
-              <React.Fragment>
+              <Fragment>
                 <div className="grid gap-2">
                   <Label htmlFor="current_password">Current password</Label>
 
@@ -120,7 +110,7 @@ export default function Password() {
                     <p className="text-sm text-neutral-600">Saved</p>
                   </Transition>
                 </div>
-              </React.Fragment>
+              </Fragment>
             )}
           </Form>
         </div>

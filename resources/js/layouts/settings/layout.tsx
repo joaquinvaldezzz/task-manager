@@ -53,19 +53,19 @@ export default function SettingsLayout({ children }: PropsWithChildren) {
           <nav className="flex flex-col space-y-1 space-x-0" aria-label="Settings">
             {sidebarNavItems.map((item, index) => (
               <Button
-                key={`${toUrl(item.href)}-${index}`}
+                key={`${toUrl(item.href)}-${index + 1}`}
                 size="sm"
                 variant="ghost"
-                asChild
                 className={cn("w-full justify-start", {
                   "bg-muted": urlIsActive(item.href),
                 })}
-              >
-                <Link href={item.href}>
-                  {item.icon ? <item.icon className="h-4 w-4" /> : null}
-                  {item.title}
-                </Link>
-              </Button>
+                render={
+                  <Link href={item.href}>
+                    {item.icon ? <item.icon className="h-4 w-4" /> : null}
+                    {item.title}
+                  </Link>
+                }
+              />
             ))}
           </nav>
         </aside>

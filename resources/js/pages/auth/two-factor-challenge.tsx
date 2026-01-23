@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { Fragment, useMemo, useState } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { store } from "@/routes/two-factor/login";
@@ -53,9 +53,9 @@ export default function TwoFactorChallenge() {
           resetOnSuccess={!showRecoveryInput}
         >
           {({ errors, processing, clearErrors }) => (
-            <React.Fragment>
+            <Fragment>
               {showRecoveryInput ? (
-                <React.Fragment>
+                <Fragment>
                   <Input
                     name="recovery_code"
                     type="text"
@@ -64,7 +64,7 @@ export default function TwoFactorChallenge() {
                     required
                   />
                   <InputError message={errors.recovery_code} />
-                </React.Fragment>
+                </Fragment>
               ) : (
                 <div className="flex flex-col items-center justify-center space-y-3 text-center">
                   <div className="flex w-full items-center justify-center">
@@ -101,7 +101,7 @@ export default function TwoFactorChallenge() {
                   {authConfigContent.toggleText}
                 </button>
               </div>
-            </React.Fragment>
+            </Fragment>
           )}
         </Form>
       </div>

@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import type { HTMLAttributes } from "react";
 
 export default function InputError({
-  message,
+  message = undefined,
   className = "",
   ...props
 }: HTMLAttributes<HTMLParagraphElement> & { message?: string }) {

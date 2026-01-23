@@ -1,4 +1,5 @@
 // Components
+import { Fragment } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { login } from "@/routes";
@@ -11,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import InputError from "@/components/input-error";
 import TextLink from "@/components/text-link";
 
-export default function ForgotPassword({ status }: { status?: string }) {
+export default function ForgotPassword({ status = undefined }: { status?: string }) {
   return (
     <AuthLayout
       title="Forgot password"
@@ -26,7 +27,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
       <div className="space-y-6">
         <Form {...email.form()}>
           {({ processing, errors }) => (
-            <React.Fragment>
+            <Fragment>
               <div className="grid gap-2">
                 <Label htmlFor="email">Email address</Label>
                 <Input
@@ -51,7 +52,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
                   Email password reset link
                 </Button>
               </div>
-            </React.Fragment>
+            </Fragment>
           )}
         </Form>
 

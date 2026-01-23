@@ -7,11 +7,11 @@ import AppLogoIcon from "@/components/app-logo-icon";
 import type { PropsWithChildren } from "react";
 
 export default function AuthCardLayout({
-  children,
-  title,
-  description,
+  children = undefined,
+  title = undefined,
+  description = undefined,
 }: PropsWithChildren<{
-  name?: string;
+  // name?: string;
   title?: string;
   description?: string;
 }>) {
