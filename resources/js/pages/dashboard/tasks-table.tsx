@@ -30,10 +30,8 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
             <TableHead>Done</TableHead>
             <TableHead>Task</TableHead>
-            <TableHead>Description</TableHead>
             <TableHead>Created</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
@@ -41,10 +39,6 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
         <TableBody>
           {tasks.map((task) => (
             <TableRow key={task.id}>
-              <TableCell>
-                <span className="text-muted-foreground tabular-nums">#{task.id}</span>
-              </TableCell>
-
               <TableCell>
                 <Checkbox
                   id={task.id.toString()}
@@ -56,8 +50,6 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
               <TableCell>
                 <TaskEditDialog task={task} />
               </TableCell>
-
-              <TableCell className="text-muted-foreground">{task.description ?? "-"}</TableCell>
 
               <TableCell className="text-muted-foreground tabular-nums">
                 {formatDate(task.created_at)}
