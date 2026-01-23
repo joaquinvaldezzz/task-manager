@@ -42,7 +42,7 @@
     @inertiaHead
 </head>
 
-<body class="antialiased">
+<body class="text-pretty antialiased">
     @inertia
 </body>
 
