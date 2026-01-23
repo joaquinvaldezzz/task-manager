@@ -1,7 +1,19 @@
+import { useState } from "react";
 import { useForm } from "@inertiajs/react";
+import { Plus as PlusIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardDescription, CardHeader, CardPanel, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogClose,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogPanel,
+  DialogPopup,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -11,55 +23,66 @@ import { toastManager } from "@/components/ui/toast";
 import type { FormEvent } from "react";
 
 export function TaskForm() {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const { data, setData, post, processing, errors, reset } = useForm({
     title: "",
     description: "",
   });
 
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
     post("/tasks", {
       onSuccess: () => {
         toastManager.add({
           title: "Task successfully added!",
           type: "success",
         });
+        setIsDialogOpen(false);
         reset();
       },
     });
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Create a new task</CardTitle>
-        <CardDescription>Create one by completing this form.</CardDescription>
-      </CardHeader>
-      <CardPanel>
-        <Form onSubmit={submit} errors={errors}>
-          <Field name="title" disabled={processing}>
-            <FieldLabel>Task</FieldLabel>
-            <Input
-              type="text"
-              value={data.title}
-              onChange={(event) => setData("title", event.target.value)}
-            />
-            {errors.title ? <FieldError>{errors.title}</FieldError> : null}
-          </Field>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <DialogTrigger render={<Button />}>
+        <PlusIcon />
+        <span>Add task</span>
+      </DialogTrigger>
 
-          <Field name="description" disabled={processing}>
-            <FieldLabel>Description (optional)</FieldLabel>
-            <Textarea
-              value={data.description}
-              onChange={(e) => setData("description", e.target.value)}
-            />
-          </Field>
+      <DialogPopup>
+        <Form className="gap-0" onSubmit={submit} errors={errors}>
+          <DialogHeader>
+            <DialogTitle>Create a new task</DialogTitle>
+            <DialogDescription>Create one by completing this form.</DialogDescription>
+          </DialogHeader>
+          <DialogPanel className="flex flex-col gap-4">
+            <Field name="title" disabled={processing}>
+              <FieldLabel>Task</FieldLabel>
+              <Input
+                type="text"
+                value={data.title}
+                onChange={(event) => setData("title", event.target.value)}
+              />
+              {errors.title ? <FieldError>{errors.title}</FieldError> : null}
+            </Field>
 
-          <Button type="submit" disabled={processing}>
-            Add Task
-          </Button>
+            <Field name="description" disabled={processing}>
+              <FieldLabel>Description (optional)</FieldLabel>
+              <Textarea
+                value={data.description}
+                onChange={(e) => setData("description", e.target.value)}
+              />
+            </Field>
+          </DialogPanel>
+          <DialogFooter>
+            <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
+            <Button type="submit" disabled={processing}>
+              Add Task
+            </Button>
+          </DialogFooter>
         </Form>
-      </CardPanel>
-    </Card>
+      </DialogPopup>
+    </Dialog>
   );
 }
