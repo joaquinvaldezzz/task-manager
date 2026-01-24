@@ -30,12 +30,13 @@ interface TaskEditDialogProps {
 export function TaskEditDialog({ task }: TaskEditDialogProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
-  const { updateTask } = useTaskOperations();
-
-  const { data, setData, submit, processing, errors } = useForm({
+  const { data, setData, submit, processing, errors, isDirty } = useForm({
     title: task.title,
     description: task.description ?? "",
   });
+  const { updateTask } = useTaskOperations();
+
+  const onSubmit = updateTask(task, submit, () => setIsEditDialogOpen(false));
 
   const handleReset = () => {
     setData({
@@ -44,14 +45,11 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
     });
   };
 
-  const onSubmit = updateTask(task, submit, () => setIsEditDialogOpen(false));
-  const hasChanges = task.title !== data.title || (task.description ?? "") !== data.description;
-
   return (
     <Dialog
       open={isEditDialogOpen}
       onOpenChange={(event) => {
-        if (!event && hasChanges) {
+        if (!event && isDirty) {
           setIsDiscardConfirmOpen(true);
         } else {
           setIsEditDialogOpen(event);
@@ -85,7 +83,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
 
           <DialogFooter>
             <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-            <Button type="submit" disabled={processing || !hasChanges}>
+            <Button type="submit" disabled={processing || !isDirty}>
               Save
             </Button>
           </DialogFooter>
