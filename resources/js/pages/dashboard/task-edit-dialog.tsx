@@ -36,7 +36,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
   });
   const { updateTask } = useTaskOperations();
 
-  const onSubmit = updateTask(task, submit, () => setIsEditDialogOpen(false));
+  const handleTaskUpdate = updateTask(task, submit, () => setIsEditDialogOpen(false));
 
   const handleReset = () => {
     setData({
@@ -58,7 +58,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
     >
       <DialogTrigger className="hover:underline">{task.title}</DialogTrigger>
       <DialogPopup>
-        <Form className="gap-0" onSubmit={onSubmit} errors={errors}>
+        <Form className="gap-0" onSubmit={handleTaskUpdate} errors={errors}>
           <DialogHeader>
             <DialogTitle>Edit task #{task.id}</DialogTitle>
             <DialogDescription>Make changes here and click save.</DialogDescription>

@@ -29,7 +29,7 @@ export function TaskForm() {
   });
   const { createTask } = useTaskOperations();
 
-  const onSubmit = createTask(submit, () => setIsDialogOpen(false), reset);
+  const handleTaskSubmission = createTask(submit, () => setIsDialogOpen(false), reset);
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -39,7 +39,7 @@ export function TaskForm() {
       </DialogTrigger>
 
       <DialogPopup>
-        <Form className="gap-0" onSubmit={onSubmit} errors={errors}>
+        <Form className="gap-0" onSubmit={handleTaskSubmission} errors={errors}>
           <DialogHeader>
             <DialogTitle>Create a new task</DialogTitle>
             <DialogDescription>Create one by completing this form.</DialogDescription>
