@@ -17,12 +17,11 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toastManager } from "@/components/ui/toast";
 
-import type { FormEvent } from "react";
 import type { Task } from "@/types/task";
 
 import { DiscardChangesDialog } from "./discard-changes-dialog";
+import { useTaskOperations } from "./use-task-operations";
 
 interface TaskEditDialogProps {
   task: Task;
@@ -31,13 +30,12 @@ interface TaskEditDialogProps {
 export function TaskEditDialog({ task }: TaskEditDialogProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
+  const { updateTask } = useTaskOperations();
 
-  const { data, setData, put, processing, errors } = useForm({
+  const { data, setData, submit, processing, errors } = useForm({
     title: task.title,
     description: task.description ?? "",
   });
-
-  const hasChanges = task.title !== data.title || (task.description ?? "") !== data.description;
 
   const handleReset = () => {
     setData({
@@ -46,26 +44,8 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
     });
   };
 
-  const submit = (e: FormEvent) => {
-    e.preventDefault();
-
-    put(`/tasks/${task.id}`, {
-      preserveScroll: true,
-      onSuccess: () => {
-        toastManager.add({
-          title: "Task updated successfully!",
-          type: "success",
-        });
-        setIsEditDialogOpen(false);
-      },
-      onError: () => {
-        toastManager.add({
-          title: "Failed to update task",
-          type: "error",
-        });
-      },
-    });
-  };
+  const onSubmit = updateTask(task, submit, () => setIsEditDialogOpen(false));
+  const hasChanges = task.title !== data.title || (task.description ?? "") !== data.description;
 
   return (
     <Dialog
@@ -80,7 +60,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
     >
       <DialogTrigger className="hover:underline">{task.title}</DialogTrigger>
       <DialogPopup>
-        <Form className="gap-0" onSubmit={submit} errors={errors}>
+        <Form className="gap-0" onSubmit={onSubmit} errors={errors}>
           <DialogHeader>
             <DialogTitle>Edit task #{task.id}</DialogTitle>
             <DialogDescription>Make changes here and click save.</DialogDescription>

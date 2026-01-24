@@ -18,30 +18,18 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { toastManager } from "@/components/ui/toast";
 
-import type { FormEvent } from "react";
+import { useTaskOperations } from "./use-task-operations";
 
 export function TaskForm() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { data, setData, post, processing, errors, reset } = useForm({
+  const { data, setData, submit, processing, errors, reset } = useForm({
     title: "",
     description: "",
   });
+  const { createTask } = useTaskOperations();
 
-  const submit = (event: FormEvent) => {
-    event.preventDefault();
-    post("/tasks", {
-      onSuccess: () => {
-        toastManager.add({
-          title: "Task successfully added!",
-          type: "success",
-        });
-        setIsDialogOpen(false);
-        reset();
-      },
-    });
-  };
+  const onSubmit = createTask(submit, () => setIsDialogOpen(false), reset);
 
   return (
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -51,7 +39,7 @@ export function TaskForm() {
       </DialogTrigger>
 
       <DialogPopup>
-        <Form className="gap-0" onSubmit={submit} errors={errors}>
+        <Form className="gap-0" onSubmit={onSubmit} errors={errors}>
           <DialogHeader>
             <DialogTitle>Create a new task</DialogTitle>
             <DialogDescription>Create one by completing this form.</DialogDescription>
