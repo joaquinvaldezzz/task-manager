@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus as PlusIcon } from "lucide-react";
 
 import { useQKeyToggle } from "@/hooks/use-q-key-toggle";
+import { useTaskForm } from "@/hooks/use-task-form";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,7 +23,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { DiscardChangesDialog } from "./discard-changes-dialog";
-import { useTaskForm } from "./use-task-form";
 import { useTaskOperations } from "./use-task-operations";
 
 export function TaskForm() {
