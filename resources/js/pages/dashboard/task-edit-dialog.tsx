@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useForm } from "@inertiajs/react";
 
+import { useTaskForm } from "@/hooks/use-task-form";
+import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,7 +22,6 @@ import { Textarea } from "@/components/ui/textarea";
 import type { Task } from "@/types/task";
 
 import { DiscardChangesDialog } from "./discard-changes-dialog";
-import { useTaskOperations } from "./use-task-operations";
 
 interface TaskEditDialogProps {
   task: Task;
@@ -30,10 +30,7 @@ interface TaskEditDialogProps {
 export function TaskEditDialog({ task }: TaskEditDialogProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
-  const { data, setData, submit, processing, errors, reset, isDirty } = useForm({
-    title: task.title,
-    description: task.description ?? "",
-  });
+  const { data, setData, submit, processing, errors, reset, isDirty } = useTaskForm();
   const { updateTask } = useTaskOperations();
 
   const handleTaskUpdate = updateTask(task, submit, () => setIsEditDialogOpen(false));
