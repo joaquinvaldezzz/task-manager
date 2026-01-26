@@ -9,3 +9,8 @@ export interface Task {
   created_at: string;
   updated_at: string;
 }
+
+export interface TaskFormData {
+  title: string;
+  description: string;
+}
