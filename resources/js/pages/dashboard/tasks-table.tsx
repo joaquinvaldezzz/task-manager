@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { formatDate } from "@/lib/utils";
 import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Frame } from "@/components/ui/frame";
@@ -16,7 +17,6 @@ import type { Task } from "@/types/task";
 
 import { TaskDeleteDialog } from "./task-delete-dialog";
 import { TaskEditDialog } from "./task-edit-dialog";
-import { formatDate } from "./utils";
 
 interface TasksTableProps {
   tasks: Task[];
