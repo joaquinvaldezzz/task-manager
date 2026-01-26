@@ -19,11 +19,13 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import { DiscardChangesDialog } from "./discard-changes-dialog";
 import { useTaskOperations } from "./use-task-operations";
 
 export function TaskForm() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
-  const { data, setData, submit, processing, errors, reset } = useForm({
+  const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
+  const { data, setData, submit, processing, errors, reset, isDirty } = useForm({
     title: "",
     description: "",
   });
@@ -32,7 +34,16 @@ export function TaskForm() {
   const handleTaskSubmission = createTask(submit, () => setIsDialogOpen(false), reset);
 
   return (
-    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    <Dialog
+      open={isDialogOpen}
+      onOpenChange={(event) => {
+        if (!event && isDirty) {
+          setIsDiscardConfirmOpen(true);
+        } else {
+          setIsDialogOpen(event);
+        }
+      }}
+    >
       <DialogTrigger render={<Button />}>
         <PlusIcon />
         <span>Add task</span>
@@ -65,12 +76,22 @@ export function TaskForm() {
           </DialogPanel>
           <DialogFooter>
             <DialogClose render={<Button variant="ghost" />}>Cancel</DialogClose>
-            <Button type="submit" disabled={processing}>
+            <Button type="submit" disabled={processing || !isDirty}>
               Add Task
             </Button>
           </DialogFooter>
         </Form>
       </DialogPopup>
+
+      <DiscardChangesDialog
+        open={isDiscardConfirmOpen}
+        onOpenChange={setIsDiscardConfirmOpen}
+        onDiscard={() => {
+          setIsDiscardConfirmOpen(false);
+          setIsDialogOpen(false);
+          reset();
+        }}
+      />
     </Dialog>
   );
 }
