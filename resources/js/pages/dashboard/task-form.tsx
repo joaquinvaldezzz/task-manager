@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useForm } from "@inertiajs/react";
 import { Plus as PlusIcon } from "lucide-react";
 
+import { useQKeyToggle } from "@/hooks/use-q-key-toggle";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,19 +17,22 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Kbd } from "@/components/ui/kbd";
 import { Textarea } from "@/components/ui/textarea";
+import { Tooltip, TooltipPopup, TooltipTrigger } from "@/components/ui/tooltip";
 
 import { DiscardChangesDialog } from "./discard-changes-dialog";
+import { useTaskForm } from "./use-task-form";
 import { useTaskOperations } from "./use-task-operations";
 
 export function TaskForm() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
   const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
-  const { data, setData, submit, processing, errors, reset, isDirty } = useForm({
-    title: "",
-    description: "",
-  });
+
+  const { data, setData, submit, processing, errors, reset, isDirty } = useTaskForm();
   const { createTask } = useTaskOperations();
+
+  useQKeyToggle(setIsDialogOpen);
 
   const handleTaskSubmission = createTask(submit, () => setIsDialogOpen(false), reset);
 
@@ -44,10 +47,17 @@ export function TaskForm() {
         }
       }}
     >
-      <DialogTrigger render={<Button />}>
-        <PlusIcon />
-        <span>Add task</span>
-      </DialogTrigger>
+      <Tooltip>
+        <TooltipTrigger render={<DialogTrigger render={<Button />} />}>
+          <PlusIcon />
+          <span>Add task</span>
+        </TooltipTrigger>
+
+        <TooltipPopup>
+          <span>Add task</span>
+          <Kbd>Q</Kbd>
+        </TooltipPopup>
+      </Tooltip>
 
       <DialogPopup>
         <Form className="gap-0" onSubmit={handleTaskSubmission} errors={errors}>
