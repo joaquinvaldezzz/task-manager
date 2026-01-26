@@ -30,20 +30,13 @@ interface TaskEditDialogProps {
 export function TaskEditDialog({ task }: TaskEditDialogProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState<boolean>(false);
   const [isDiscardConfirmOpen, setIsDiscardConfirmOpen] = useState<boolean>(false);
-  const { data, setData, submit, processing, errors, isDirty } = useForm({
+  const { data, setData, submit, processing, errors, reset, isDirty } = useForm({
     title: task.title,
     description: task.description ?? "",
   });
   const { updateTask } = useTaskOperations();
 
   const handleTaskUpdate = updateTask(task, submit, () => setIsEditDialogOpen(false));
-
-  const handleReset = () => {
-    setData({
-      title: task.title,
-      description: task.description ?? "",
-    });
-  };
 
   return (
     <Dialog
@@ -96,7 +89,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
         onDiscard={() => {
           setIsDiscardConfirmOpen(false);
           setIsEditDialogOpen(false);
-          handleReset();
+          reset();
         }}
       />
     </Dialog>
