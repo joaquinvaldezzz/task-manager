@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Frame } from "@/components/ui/frame";
 import {
@@ -19,12 +20,12 @@ import { formatDate } from "./utils";
 
 interface TasksTableProps {
   tasks: Task[];
-  onToggle: (taskId: number, completed: boolean) => void;
-  onDelete: (taskId: number) => void;
 }
 
-export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
+export function TasksTable({ tasks }: TasksTableProps) {
   const [deleteTaskId, setDeleteTaskId] = useState<number | null>(null);
+  const { toggleTask, deleteTask } = useTaskOperations();
+
   return (
     <Frame>
       <Table>
@@ -43,7 +44,7 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
                 <Checkbox
                   id={task.id.toString()}
                   checked={task.completed}
-                  onCheckedChange={(checked) => onToggle(task.id, Boolean(checked))}
+                  onCheckedChange={(checked) => toggleTask(task.id, Boolean(checked))}
                 />
               </TableCell>
 
@@ -60,7 +61,7 @@ export function TasksTable({ tasks, onToggle, onDelete }: TasksTableProps) {
                   taskId={task.id}
                   isOpen={deleteTaskId === task.id}
                   onOpenChange={(open) => setDeleteTaskId(open ? task.id : null)}
-                  onDelete={onDelete}
+                  onDelete={deleteTask}
                 />
               </TableCell>
             </TableRow>
