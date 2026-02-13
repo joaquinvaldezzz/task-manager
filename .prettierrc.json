@@ -39,6 +39,8 @@
     "^@/config/(.*)$",
     "^@/lib/(.*)$",
     "^@/actions/(.*)$",
+    "^@/routes/(.*)$",
+    "^@/wayfinder/(.*)$",
     "^@/hooks/(.*)$",
     "^@/components/ui/(.*)$",
     "^@/components/(.*)$",
