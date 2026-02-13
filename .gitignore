@@ -447,4 +447,7 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/laravel,node,linux,macos,windows,visualstudiocode,phpstorm,intellij
 
-public/build/
+public/build
+resources/js/actions
+resources/js/routes
+resources/js/wayfinder
