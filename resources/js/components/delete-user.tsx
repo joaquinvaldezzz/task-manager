@@ -1,7 +1,7 @@
 import { Fragment, useRef } from "react";
 import { Form } from "@inertiajs/react";
-import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
 
+import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,

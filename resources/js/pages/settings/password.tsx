@@ -1,10 +1,10 @@
 import { Fragment, useRef } from "react";
 import { Form, Head } from "@inertiajs/react";
-import PasswordController from "@/actions/App/Http/Controllers/Settings/PasswordController";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
 import { Transition } from "@headlessui/react";
 
+import PasswordController from "@/actions/App/Http/Controllers/Settings/PasswordController";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
