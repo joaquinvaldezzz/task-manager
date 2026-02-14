@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { useHotkey } from "@tanstack/react-hotkeys";
 import { Plus as PlusIcon } from "lucide-react";
 
-import { useQKeyToggle } from "@/hooks/use-q-key-toggle";
 import { useTaskForm } from "@/hooks/use-task-form";
 import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Button } from "@/components/ui/button";
@@ -32,7 +32,11 @@ export function TaskForm() {
   const { data, setData, submit, processing, errors, reset, isDirty } = useTaskForm();
   const { createTask } = useTaskOperations();
 
-  useQKeyToggle(setIsDialogOpen);
+  useHotkey("Q", () => {
+    if (!isDialogOpen) {
+      setIsDialogOpen(true);
+    }
+  });
 
   const handleTaskSubmission = createTask(submit, () => setIsDialogOpen(false), reset);
 
