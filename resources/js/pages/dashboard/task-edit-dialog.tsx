@@ -57,14 +57,17 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
           <DialogPanel className="flex flex-col gap-4">
             <Field name="title">
               <FieldLabel>Task</FieldLabel>
-              <Input value={data.title} onChange={(e) => setData("title", e.target.value)} />
+              <Input
+                value={data.title || task.title}
+                onChange={(e) => setData("title", e.target.value)}
+              />
               {errors.title ? <FieldError>{errors.title}</FieldError> : null}
             </Field>
 
             <Field name="description">
               <FieldLabel>Description</FieldLabel>
               <Textarea
-                value={data.description}
+                value={(data.description || task.description) ?? ""}
                 onChange={(e) => setData("description", e.target.value)}
               />
               {errors.description ? <FieldError>{errors.description}</FieldError> : null}
