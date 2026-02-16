@@ -1,10 +1,10 @@
 import { Link } from "@inertiajs/react";
+
+import { cn, toUrl } from "@/lib/utils";
 import { edit as editAppearance } from "@/routes/appearance";
 import { edit } from "@/routes/profile";
 import { show } from "@/routes/two-factor";
 import { edit as editPassword } from "@/routes/user-password";
-
-import { cn, toUrl } from "@/lib/utils";
 import { useActiveUrl } from "@/hooks/use-active-url";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";

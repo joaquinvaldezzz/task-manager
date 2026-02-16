@@ -3,9 +3,9 @@ import { Fragment } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { login } from "@/routes";
-import { email } from "@/routes/password";
 import { LoaderCircle } from "lucide-react";
 
+import { email } from "@/routes/password";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

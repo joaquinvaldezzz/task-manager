@@ -3,8 +3,8 @@ import { Fragment } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { logout } from "@/routes";
-import { send } from "@/routes/verification";
 
+import { send } from "@/routes/verification";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import TextLink from "@/components/text-link";

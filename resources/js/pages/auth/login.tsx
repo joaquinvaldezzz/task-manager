@@ -2,9 +2,9 @@ import { Fragment } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
 import { register } from "@/routes";
+
 import { store } from "@/routes/login";
 import { request } from "@/routes/password";
-
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";

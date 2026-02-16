@@ -1,9 +1,9 @@
 import { Fragment, useMemo, useState } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AuthLayout from "@/layouts/auth-layout";
-import { store } from "@/routes/two-factor/login";
 import { REGEXP_ONLY_DIGITS } from "input-otp";
 
+import { store } from "@/routes/two-factor/login";
 import { OTP_MAX_LENGTH } from "@/hooks/use-two-factor-auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

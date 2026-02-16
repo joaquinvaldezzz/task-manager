@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import { Link, router } from "@inertiajs/react";
 import { logout } from "@/routes";
-import { edit } from "@/routes/profile";
 import { LogOut, Settings } from "lucide-react";
 
+import { edit } from "@/routes/profile";
 import { useMobileNavigation } from "@/hooks/use-mobile-navigation";
 import { MenuGroup, MenuGroupLabel, MenuItem, MenuSeparator } from "@/components/ui/menu";
 import { UserInfo } from "@/components/user-info";

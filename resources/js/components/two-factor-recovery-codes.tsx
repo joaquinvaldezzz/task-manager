@@ -1,8 +1,8 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { Form } from "@inertiajs/react";
-import { regenerateRecoveryCodes } from "@/routes/two-factor";
 import { Eye, EyeOff, LockKeyhole, RefreshCw } from "lucide-react";
 
+import { regenerateRecoveryCodes } from "@/routes/two-factor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 

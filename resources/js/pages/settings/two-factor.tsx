@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Form, Head } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
-import { disable, enable, show } from "@/routes/two-factor";
 import { ShieldBan, ShieldCheck } from "lucide-react";
 
+import { disable, enable, show } from "@/routes/two-factor";
 import { useTwoFactorAuth } from "@/hooks/use-two-factor-auth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";

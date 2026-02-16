@@ -2,10 +2,10 @@ import { Fragment } from "react";
 import { Form, Head, Link, usePage } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import SettingsLayout from "@/layouts/settings/layout";
-import { send } from "@/routes/verification";
 import { Transition } from "@headlessui/react";
 
 import ProfileController from "@/actions/App/Http/Controllers/Settings/ProfileController";
+import { send } from "@/routes/verification";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
