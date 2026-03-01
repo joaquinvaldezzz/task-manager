@@ -1,6 +1,6 @@
 import { useForm } from "@inertiajs/react";
 
-import type { Task, TaskFormData } from "@/types/task";
+import type { TaskFormData } from "@/types/task";
 
 interface UseTaskFormOptions {
   initialTitle?: string;
