@@ -1,11 +1,16 @@
 import { useForm } from "@inertiajs/react";
 
-import type { TaskFormData } from "@/types/task";
+import type { Task, TaskFormData } from "@/types/task";
 
-export function useTaskForm() {
+interface UseTaskFormOptions {
+  initialTitle?: string;
+  initialDescription?: string;
+}
+
+export function useTaskForm(options?: UseTaskFormOptions) {
   const { data, setData, submit, processing, errors, reset, isDirty } = useForm<TaskFormData>({
-    title: "",
-    description: "",
+    title: options?.initialTitle ?? "",
+    description: options?.initialDescription ?? "",
   });
 
   return { data, setData, submit, processing, errors, reset, isDirty };
