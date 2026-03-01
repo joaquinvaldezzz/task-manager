@@ -27,12 +27,6 @@ const jsConfig = defineConfig([
       // Disable Import X order rules to avoid conflicts with `@ianvs/prettier-plugin-sort-imports`
       "import-x/order": "off",
       "import-x/prefer-default-export": "off",
-      "import-x/no-unresolved": [
-        "error",
-        {
-          ignore: ["^@/actions/", "^@/routes/", "^@/wayfinder/"],
-        },
-      ],
     },
   },
 ]);
