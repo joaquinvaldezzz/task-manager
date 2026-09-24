@@ -28,3 +28,13 @@ test('dashboard displays tasks', function () {
                 ->where('tasks.2.id', $task1->id),
         );
 });
+
+test('unverified users cannot create tasks', function () {
+    $user = User::factory()->unverified()->create();
+
+    $this->actingAs($user)
+        ->post(route('tasks.store'), [
+            'title' => 'Test Task',
+        ])
+        ->assertRedirect(route('verification.notice'));
+});
