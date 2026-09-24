@@ -29,14 +29,20 @@ test('dashboard displays tasks', function () {
         );
 });
 
-test('unverified users cannot create tasks', function () {
+test('unverified users can create tasks while email verification is disabled', function () {
     $user = User::factory()->unverified()->create();
 
-    $this->actingAs($user)
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
         ->post(route('tasks.store'), [
             'title' => 'Test Task',
-        ])
-        ->assertRedirect(route('verification.notice'));
+        ]);
+
+    $response->assertRedirect(route('dashboard'));
+    $this->assertDatabaseHas('tasks', [
+        'user_id' => $user->id,
+        'title' => 'Test Task',
+    ]);
 });
 
 test('authenticated user can create a task', function () {
