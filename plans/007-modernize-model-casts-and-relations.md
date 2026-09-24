@@ -6,7 +6,7 @@
 > report — do not improvise. When done, update the status row for this plan
 > in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 0b9ec9c..HEAD -- app/Models/Task.php app/Models/User.php`
+> **Drift check (run first)**: `git diff --stat 32c9059..HEAD -- app/Models/Task.php app/Models/User.php`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -18,7 +18,7 @@
 - **Risk**: LOW
 - **Depends on**: none
 - **Category**: tech-debt
-- **Planned at**: commit `0b9ec9c`, 2026-09-24
+- **Planned at**: commit `32c9059`, 2026-09-24
 
 ## Why this matters
 
@@ -77,7 +77,7 @@ Currently, `app/Models/Task.php` still uses the legacy `$casts` property while `
 ## Git workflow
 
 - Branch: `advisor/007-modernize-model-casts-and-relations`
-- Commit message: `refactor(models): adopt casts method and relationship return types`
+- Commit message: `refactor(models): modernize casts and relations`
 
 ## Steps
 
