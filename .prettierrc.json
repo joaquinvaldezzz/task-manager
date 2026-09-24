@@ -2,7 +2,6 @@
   "printWidth": 100,
   "plugins": [
     "@ianvs/prettier-plugin-sort-imports",
-    "@prettier/plugin-php",
     "@shufo/prettier-plugin-blade",
     "@prettier/plugin-xml",
     "prettier-plugin-tailwindcss"
@@ -12,13 +11,6 @@
       "files": "**/*.yml",
       "options": {
         "tabWidth": 2
-      }
-    },
-    {
-      "files": "*.php",
-      "options": {
-        "tabWidth": 4,
-        "singleQuote": true
       }
     },
     {

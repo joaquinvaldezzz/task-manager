@@ -62,10 +62,9 @@ test('authenticated user can create a task', function () {
 test('task creation requires title', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)
-        ->post(route('tasks.store'), [
-            'title' => '',
-        ]);
+    $response = $this->actingAs($user)->post(route('tasks.store'), [
+        'title' => '',
+    ]);
 
     $response->assertSessionHasErrors('title');
 });
@@ -73,10 +72,9 @@ test('task creation requires title', function () {
 test('task title cannot exceed 255 characters', function () {
     $user = User::factory()->create();
 
-    $response = $this->actingAs($user)
-        ->post(route('tasks.store'), [
-            'title' => str_repeat('a', 256),
-        ]);
+    $response = $this->actingAs($user)->post(route('tasks.store'), [
+        'title' => str_repeat('a', 256),
+    ]);
 
     $response->assertSessionHasErrors('title');
 });
@@ -123,10 +121,9 @@ test('user cannot update another user task', function () {
         'title' => 'Original Title',
     ]);
 
-    $response = $this->actingAs($userB)
-        ->put(route('tasks.update', $task), [
-            'title' => 'Hacked Title',
-        ]);
+    $response = $this->actingAs($userB)->put(route('tasks.update', $task), [
+        'title' => 'Hacked Title',
+    ]);
 
     $response->assertForbidden();
 
@@ -142,10 +139,9 @@ test('task update validation requires title when present', function () {
         'user_id' => $user->id,
     ]);
 
-    $response = $this->actingAs($user)
-        ->put(route('tasks.update', $task), [
-            'title' => '',
-        ]);
+    $response = $this->actingAs($user)->put(route('tasks.update', $task), [
+        'title' => '',
+    ]);
 
     $response->assertSessionHasErrors('title');
 });
@@ -172,8 +168,7 @@ test('user cannot delete another user task', function () {
         'user_id' => $userA->id,
     ]);
 
-    $response = $this->actingAs($userB)
-        ->delete(route('tasks.destroy', $task));
+    $response = $this->actingAs($userB)->delete(route('tasks.destroy', $task));
 
     $response->assertForbidden();
 
