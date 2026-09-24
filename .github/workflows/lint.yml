@@ -11,7 +11,7 @@ on:
       - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   quality:
@@ -35,17 +35,14 @@ jobs:
       - name: Build project
         run: bun run build
 
-      - name: Run Pint
-        run: vendor/bin/pint
+      - name: Check TypeScript types
+        run: bun run types
 
-      - name: Format code
-        run: bun format
+      - name: Run Pint Check
+        run: vendor/bin/pint --test
+
+      - name: Check code formatting
+        run: bun run format:check
 
       - name: Lint code
         run: bun lint
-
-      # - name: Commit Changes
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     commit_message: fix code style
-      #     commit_options: '--no-verify'
