@@ -21,4 +21,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

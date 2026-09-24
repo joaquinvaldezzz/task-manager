@@ -20,7 +20,7 @@ test('dashboard displays tasks', function () {
     $this->actingAs($user)
         ->get(route('dashboard'))
         ->assertInertia(
-            fn(Assert $page) => $page
+            fn (Assert $page) => $page
                 ->component('dashboard/index')
                 ->has('tasks', 3)
                 ->where('tasks.0.id', $task3->id)
