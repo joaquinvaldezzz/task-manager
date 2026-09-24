@@ -2,51 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class TaskController extends Controller
 {
-    public function index()
+    public function index(Request $request): Response
     {
-        $tasks = auth()->user()->tasks()->latest()->get();
+        $tasks = $request->user()->tasks()->latest()->get();
 
         return Inertia::render('dashboard/index', [
             'tasks' => $tasks,
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
-
-        $request->user()->tasks()->create($validated);
+        $request->user()->tasks()->create($request->validated());
 
         return redirect()->back();
     }
 
-    public function update(Request $request, Task $task)
+    public function update(UpdateTaskRequest $request, Task $task): RedirectResponse
     {
-        abort_if($task->user_id !== $request->user()->id, 403);
-
-        $validated = $request->validate([
-            'title' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string',
-            'completed' => 'boolean',
-        ]);
-
-        $task->update($validated);
+        $task->update($request->validated());
 
         return redirect()->back();
     }
 
-    public function destroy(Task $task)
+    public function destroy(Request $request, Task $task): RedirectResponse
     {
-        abort_if($task->user_id !== auth()->id(), 403);
+        Gate::authorize('delete', $task);
 
         $task->delete();
 
