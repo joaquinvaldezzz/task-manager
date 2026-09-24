@@ -6,7 +6,7 @@
 > report — do not improvise. When done, update the status row for this plan
 > in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 0b9ec9c..HEAD -- app/Models/Task.php resources/js/types/task.ts resources/js/pages/dashboard/task-form.tsx`
+> **Drift check (run first)**: `git diff --stat e5c1664..HEAD -- app/Models/Task.php resources/js/types/task.ts resources/js/pages/dashboard/task-form.tsx`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -18,7 +18,7 @@
 - **Risk**: MED
 - **Depends on**: plans/003-task-feature-tests.md, plans/004-refactor-task-controller.md
 - **Category**: direction
-- **Planned at**: commit `0b9ec9c`, 2026-09-24
+- **Planned at**: commit `e5c1664`, 2026-09-24
 
 ## Why this matters
 
@@ -72,6 +72,7 @@ The repository already contains preparations for task deadlines: `resources/js/t
 - `database/factories/TaskFactory.php` (add optional `deadline`)
 - `app/Http/Requests/StoreTaskRequest.php` and `UpdateTaskRequest.php` (validate `deadline` as nullable date)
 - `resources/js/types/task.ts` (add `deadline?: string | null` to `TaskFormData`)
+- `resources/js/hooks/use-task-form.ts` (support initial deadline)
 - `resources/js/pages/dashboard/task-form.tsx` (add date picker)
 - `resources/js/pages/dashboard/task-edit-dialog.tsx` (add date picker)
 - `resources/js/pages/dashboard/tasks-table.tsx` (display deadline column)
@@ -85,7 +86,7 @@ The repository already contains preparations for task deadlines: `resources/js/t
 ## Git workflow
 
 - Branch: `advisor/008-task-deadlines`
-- Commit message: `feat(tasks): support task deadlines with calendar picker`
+- Commit message: `feat(tasks): add task deadlines with calendar`
 
 ## Steps
 
