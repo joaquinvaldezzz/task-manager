@@ -174,3 +174,43 @@ test('user cannot delete another user task', function () {
 
     $this->assertModelExists($task);
 });
+
+test('user can create a task with a deadline', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
+        ->post(route('tasks.store'), [
+            'title' => 'Task with Deadline',
+            'deadline' => '2026-10-15',
+        ]);
+
+    $response->assertRedirect(route('dashboard'));
+
+    $this->assertDatabaseHas('tasks', [
+        'user_id' => $user->id,
+        'title' => 'Task with Deadline',
+        'deadline' => '2026-10-15',
+    ]);
+});
+
+test('user can update a task deadline', function () {
+    $user = User::factory()->create();
+    $task = Task::factory()->create([
+        'user_id' => $user->id,
+        'deadline' => '2026-10-15',
+    ]);
+
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
+        ->put(route('tasks.update', $task), [
+            'deadline' => '2026-10-20',
+        ]);
+
+    $response->assertRedirect(route('dashboard'));
+
+    $this->assertDatabaseHas('tasks', [
+        'id' => $task->id,
+        'deadline' => '2026-10-20',
+    ]);
+});

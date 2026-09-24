@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -34,6 +34,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
           <TableRow>
             <TableHead>Done</TableHead>
             <TableHead>Task</TableHead>
+            <TableHead>Due</TableHead>
             <TableHead>Created</TableHead>
             <TableHead>Modified</TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -56,6 +57,10 @@ export function TasksTable({ tasks }: TasksTableProps) {
                 </TableCell>
 
                 <TableCell className="text-muted-foreground tabular-nums">
+                  {task.deadline ? format(parseISO(task.deadline), "MMM d") : "—"}
+                </TableCell>
+
+                <TableCell className="text-muted-foreground tabular-nums">
                   {format(task.created_at, "MMM d")}
                 </TableCell>
 
@@ -75,7 +80,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={5}>
+              <TableCell colSpan={6}>
                 <TaskTableEmpty />
               </TableCell>
             </TableRow>

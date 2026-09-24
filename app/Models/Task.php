@@ -10,7 +10,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'completed'];
+    protected $fillable = ['title', 'description', 'completed', 'deadline'];
 
     /**
      * Get the attributes that should be cast.
@@ -21,6 +21,7 @@ class Task extends Model
     {
         return [
             'completed' => 'boolean',
+            'deadline' => 'date:Y-m-d',
         ];
     }
 

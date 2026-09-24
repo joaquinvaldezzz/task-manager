@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { format, parseISO } from "date-fns";
 
 import { useTaskForm } from "@/hooks/use-task-form";
 import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogClose,
@@ -17,6 +20,7 @@ import {
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 
 import type { Task } from "@/types/task";
@@ -33,6 +37,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
   const { data, setData, submit, processing, errors, reset, isDirty } = useTaskForm({
     initialTitle: task.title,
     initialDescription: task.description,
+    initialDeadline: task.deadline,
   });
   const { updateTask } = useTaskOperations();
 
@@ -71,6 +76,35 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
                 onChange={(e) => setData("description", e.target.value)}
               />
               {errors.description ? <FieldError>{errors.description}</FieldError> : null}
+            </Field>
+
+            <Field name="deadline" disabled={processing}>
+              <FieldLabel>Due date (optional)</FieldLabel>
+              <Popover>
+                <PopoverTrigger
+                  render={
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-left font-normal"
+                    />
+                  }
+                >
+                  <CalendarIcon />
+                  {data.deadline ? (
+                    format(parseISO(data.deadline), "PPP")
+                  ) : (
+                    <span className="text-muted-foreground">Pick a date</span>
+                  )}
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={data.deadline ? parseISO(data.deadline) : undefined}
+                    onSelect={(date) => setData("deadline", date ? format(date, "yyyy-MM-dd") : null)}
+                  />
+                </PopoverContent>
+              </Popover>
+              {errors.deadline ? <FieldError>{errors.deadline}</FieldError> : null}
             </Field>
           </DialogPanel>
 
