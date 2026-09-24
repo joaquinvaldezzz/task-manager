@@ -6,7 +6,7 @@
 > report — do not improvise. When done, update the status row for this plan
 > in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 0b9ec9c..HEAD -- tests/Feature/TaskTest.php`
+> **Drift check (run first)**: `git diff --stat dc6cd4e..HEAD -- tests/Feature/TaskTest.php`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -18,11 +18,11 @@
 - **Risk**: LOW
 - **Depends on**: none
 - **Category**: tests
-- **Planned at**: commit `0b9ec9c`, 2026-09-24
+- **Planned at**: commit `dc6cd4e`, 2026-09-24
 
 ## Why this matters
 
-The core capability of this application is managing tasks. Today, `tests/Feature/TaskTest.php` contains exactly one test that checks if the dashboard renders a list of tasks. There is zero automated test coverage for:
+The core capability of this application is managing tasks. Today, `tests/Feature/TaskTest.php` only tests dashboard rendering and unverified user redirection. There is zero automated test coverage for:
 
 1. Creating a task (`tasks.store`)
 2. Updating a task title, description, or completed status (`tasks.update`)
@@ -34,7 +34,7 @@ Without these tests, any refactoring of `TaskController`, policy authorization, 
 
 ## Current state
 
-`tests/Feature/TaskTest.php:1-31` contains only:
+`tests/Feature/TaskTest.php:1-41` contains:
 
 ```php
 <?php
@@ -43,29 +43,39 @@ use App\Models\Task;
 use App\Models\User;
 use Inertia\Testing\AssertableInertia as Assert;
 
-test("dashboard displays tasks", function () {
-  $user = User::factory()->create();
+test('dashboard displays tasks', function () {
+    $user = User::factory()->create();
 
-  $task1 = Task::factory()->create([
-    "user_id" => $user->id,
-    "created_at" => now()->subMinutes(10),
-  ]);
-  $task2 = Task::factory()->create([
-    "user_id" => $user->id,
-    "created_at" => now()->subMinutes(5),
-  ]);
-  $task3 = Task::factory()->create(["user_id" => $user->id, "created_at" => now()]);
+    $task1 = Task::factory()->create([
+        'user_id' => $user->id,
+        'created_at' => now()->subMinutes(10),
+    ]);
+    $task2 = Task::factory()->create([
+        'user_id' => $user->id,
+        'created_at' => now()->subMinutes(5),
+    ]);
+    $task3 = Task::factory()->create(['user_id' => $user->id, 'created_at' => now()]);
 
-  $this->actingAs($user)
-    ->get(route("dashboard"))
-    ->assertInertia(
-      fn(Assert $page) => $page
-        ->component("dashboard/index")
-        ->has("tasks", 3)
-        ->where("tasks.0.id", $task3->id)
-        ->where("tasks.1.id", $task2->id)
-        ->where("tasks.2.id", $task1->id),
-    );
+    $this->actingAs($user)
+        ->get(route('dashboard'))
+        ->assertInertia(
+            fn (Assert $page) => $page
+                ->component('dashboard/index')
+                ->has('tasks', 3)
+                ->where('tasks.0.id', $task3->id)
+                ->where('tasks.1.id', $task2->id)
+                ->where('tasks.2.id', $task1->id),
+        );
+});
+
+test('unverified users cannot create tasks', function () {
+    $user = User::factory()->unverified()->create();
+
+    $this->actingAs($user)
+        ->post(route('tasks.store'), [
+            'title' => 'Test Task',
+        ])
+        ->assertRedirect(route('verification.notice'));
 });
 ```
 
@@ -90,7 +100,7 @@ test("dashboard displays tasks", function () {
 ## Git workflow
 
 - Branch: `advisor/003-task-feature-tests`
-- Commit message: `test(tasks): add feature tests for store, update, destroy, and authorization`
+- Commit message: `test(tasks): add feature tests for task CRUD` (45 chars <= 50)
 
 ## Steps
 
@@ -99,7 +109,7 @@ test("dashboard displays tasks", function () {
 In `tests/Feature/TaskTest.php`, add:
 
 - `test('authenticated user can create a task', ...)`:
-  Assert redirect back, assert task exists in database with matching `title`, `description`, `user_id`, and `completed = false`.
+  Assert redirect back, assert task exists in database with matching `title`, `description`, `user_id`, and `completed = false`. Note: since `User` implements `MustVerifyEmail`, ensure the user is verified (default `User::factory()->create()` is verified).
 - `test('task creation requires title', ...)`:
   Send empty title, assert session has errors for `'title'`.
 - `test('task title cannot exceed 255 characters', ...)`:
@@ -143,22 +153,24 @@ Run `vendor/bin/pint --dirty` to ensure strict conformity with formatting rules.
 
 - Execute full task feature test file:
   `php artisan test --compact tests/Feature/TaskTest.php`
-- Confirm minimum 8 distinct tests pass:
+- Confirm all 9+ distinct tests pass:
   1. `dashboard displays tasks`
-  2. `authenticated user can create a task`
-  3. `task creation requires title`
-  4. `task title cannot exceed 255 characters`
-  5. `user can update their own task`
-  6. `user cannot update another user task`
-  7. `user can delete their own task`
-  8. `user cannot delete another user task`
+  2. `unverified users cannot create tasks`
+  3. `authenticated user can create a task`
+  4. `task creation requires title`
+  5. `task title cannot exceed 255 characters`
+  6. `guests cannot create tasks`
+  7. `user can update their own task`
+  8. `user cannot update another user task`
+  9. `task update validation requires title when present`
+  10. `user can delete their own task`
+  11. `user cannot delete another user task`
 
 ## Done criteria
 
-- [ ] All 8+ feature tests in `tests/Feature/TaskTest.php` pass cleanly
+- [ ] All 9+ feature tests in `tests/Feature/TaskTest.php` pass cleanly
 - [ ] Pest assertion `assertForbidden()` used instead of `assertStatus(403)` (per Pest conventions)
 - [ ] `vendor/bin/pint --dirty` exits 0
-- [ ] `plans/README.md` status row updated
 
 ## STOP conditions
 
