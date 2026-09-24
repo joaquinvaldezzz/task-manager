@@ -6,7 +6,7 @@
 > report — do not improvise. When done, update the status row for this plan
 > in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 0b9ec9c..HEAD -- app/Http/Controllers/TaskController.php`
+> **Drift check (run first)**: `git diff --stat ca2b665..HEAD -- app/Http/Controllers/TaskController.php`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -18,7 +18,7 @@
 - **Risk**: LOW
 - **Depends on**: plans/003-task-feature-tests.md
 - **Category**: tech-debt
-- **Planned at**: commit `0b9ec9c`, 2026-09-24
+- **Planned at**: commit `ca2b665`, 2026-09-24
 
 ## Why this matters
 
@@ -110,7 +110,7 @@ Refactoring to standard Laravel policies and Form Requests makes authorization d
 ## Git workflow
 
 - Branch: `advisor/004-refactor-task-controller-policy-requests`
-- Commit message: `refactor(tasks): extract TaskPolicy and FormRequests`
+- Commit message: `refactor(tasks): use TaskPolicy and FormRequests`
 
 ## Steps
 
