@@ -6,7 +6,7 @@
 > report — do not improvise. When done, update the status row for this plan
 > in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 0b9ec9c..HEAD -- resources/js/layouts/app-layout.tsx resources/js/layouts/app/app-sidebar-layout.tsx`
+> **Drift check (run first)**: `git diff --stat b29fe67..HEAD -- resources/js/layouts/app-layout.tsx resources/js/layouts/app/app-sidebar-layout.tsx`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -18,7 +18,7 @@
 - **Risk**: MED
 - **Depends on**: plans/001-fix-two-factor-type-error.md
 - **Category**: tech-debt
-- **Planned at**: commit `0b9ec9c`, 2026-09-24
+- **Planned at**: commit `b29fe67`, 2026-09-24
 
 ## Why this matters
 
@@ -34,16 +34,22 @@ Because of this temporary change, when logged-in users visit `/dashboard` or `/s
 
 ## Current state
 
-- In `resources/js/layouts/app-layout.tsx:1-10`:
+- In `resources/js/layouts/app-layout.tsx:1-16`:
 
   ```tsx
+  import type { BreadcrumbItem } from "@/types";
   import type { ReactNode } from "react";
 
   interface AppLayoutProps {
     children: ReactNode;
+    breadcrumbs?: BreadcrumbItem[];
   }
 
-  export default function AppLayout({ children, ...props }: AppLayoutProps) {
+  export default function AppLayout({
+    children,
+    breadcrumbs: _breadcrumbs = undefined,
+    ...props
+  }: AppLayoutProps) {
     return <div {...props}>{children}</div>;
   }
   ```
