@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useHotkey } from "@tanstack/react-hotkeys";
-import { Calendar as CalendarIcon, Plus as PlusIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { Calendar as CalendarIcon, Plus as PlusIcon } from "lucide-react";
 
 import { useTaskForm } from "@/hooks/use-task-form";
 import { useTaskOperations } from "@/hooks/use-task-operations";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogClose,
@@ -19,7 +20,6 @@ import {
 } from "@/components/ui/dialog";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
-import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -113,7 +113,9 @@ export function TaskForm() {
                   <Calendar
                     mode="single"
                     selected={data.deadline ? parseISO(data.deadline) : undefined}
-                    onSelect={(date) => setData("deadline", date ? format(date, "yyyy-MM-dd") : null)}
+                    onSelect={(date) =>
+                      setData("deadline", date ? format(date, "yyyy-MM-dd") : null)
+                    }
                   />
                 </PopoverContent>
               </Popover>

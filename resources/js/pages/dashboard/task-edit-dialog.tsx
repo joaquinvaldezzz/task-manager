@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Calendar as CalendarIcon } from "lucide-react";
 import { format, parseISO } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
 
 import { useTaskForm } from "@/hooks/use-task-form";
 import { useTaskOperations } from "@/hooks/use-task-operations";
@@ -100,7 +100,9 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
                   <Calendar
                     mode="single"
                     selected={data.deadline ? parseISO(data.deadline) : undefined}
-                    onSelect={(date) => setData("deadline", date ? format(date, "yyyy-MM-dd") : null)}
+                    onSelect={(date) =>
+                      setData("deadline", date ? format(date, "yyyy-MM-dd") : null)
+                    }
                   />
                 </PopoverContent>
               </Popover>
