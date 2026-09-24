@@ -13,4 +13,5 @@ export interface Task {
 export interface TaskFormData {
   title: string;
   description: string;
+  deadline?: string | null;
 }
