@@ -6,7 +6,7 @@
 > report — do not improvise. When done, update the status row for this plan
 > in `plans/README.md`.
 >
-> **Drift check (run first)**: `git diff --stat 0b9ec9c..HEAD -- .github/workflows/lint.yml .github/workflows/tests.yml package.json`
+> **Drift check (run first)**: `git diff --stat 5579982..HEAD -- .github/workflows/lint.yml .github/workflows/tests.yml package.json`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -18,7 +18,7 @@
 - **Risk**: LOW
 - **Depends on**: plans/001-fix-two-factor-type-error.md
 - **Category**: dx
-- **Planned at**: commit `0b9ec9c`, 2026-09-24
+- **Planned at**: commit `5579982`, 2026-09-24
 
 ## Why this matters
 
@@ -87,7 +87,7 @@ Fixing CI to check types and enforce non-mutating checks (`format:check`, `pint 
 ## Git workflow
 
 - Branch: `advisor/005-ci-typecheck-and-lint-check`
-- Commit message: `ci: add typecheck and enforce check-mode linting in CI`
+- Commit message: `ci: add typecheck and check-mode linting`
 
 ## Steps
 
