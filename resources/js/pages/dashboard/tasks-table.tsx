@@ -15,11 +15,21 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
 
-import type { Task } from "@/types/task";
+import type { badgeVariants } from "@/components/ui/badge";
+import type { VariantProps } from "class-variance-authority";
+import type { Task, TaskPriority } from "@/types/task";
 
 import { TaskDeleteDialog } from "./task-delete-dialog";
 import { TaskEditDialog } from "./task-edit-dialog";
 import { TaskTableEmpty } from "./task-table-empty";
+
+type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
+
+const priorityBadgeVariants: Record<TaskPriority, BadgeVariant> = {
+  high: "destructive",
+  medium: "secondary",
+  low: "outline",
+};
 
 interface TasksTableProps {
   tasks: Task[];
@@ -81,13 +91,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
                   <TableCell>
                     {task.priority ? (
                       <Badge
-                        variant={
-                          task.priority === "high"
-                            ? "destructive"
-                            : task.priority === "low"
-                              ? "outline"
-                              : "secondary"
-                        }
+                        variant={priorityBadgeVariants[task.priority] ?? "secondary"}
                         className="capitalize"
                       >
                         {task.priority}
