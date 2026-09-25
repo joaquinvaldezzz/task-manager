@@ -22,6 +22,7 @@ class UpdateTaskRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'completed' => ['sometimes', 'boolean'],
             'deadline' => ['nullable', 'date'],
+            'priority' => ['sometimes', 'string', 'in:low,medium,high'],
         ];
     }
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { format, parseISO } from "date-fns";
 
 import { useTaskOperations } from "@/hooks/use-task-operations";
+import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Frame } from "@/components/ui/frame";
 import {
@@ -12,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
 
 import type { Task } from "@/types/task";
 
@@ -24,69 +26,109 @@ interface TasksTableProps {
 }
 
 export function TasksTable({ tasks }: TasksTableProps) {
+  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
   const [deleteTaskId, setDeleteTaskId] = useState<number | null>(null);
   const { toggleTask, deleteTask } = useTaskOperations();
 
+  const filteredTasks = tasks.filter((task) => {
+    if (filter === "active") return !task.completed;
+    if (filter === "completed") return task.completed;
+    return true;
+  });
+
   return (
-    <Frame>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Done</TableHead>
-            <TableHead>Task</TableHead>
-            <TableHead>Due</TableHead>
-            <TableHead>Created</TableHead>
-            <TableHead>Modified</TableHead>
-            <TableHead className="text-right">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {tasks.length > 0 ? (
-            tasks.map((task) => (
-              <TableRow key={task.id}>
-                <TableCell>
-                  <Checkbox
-                    id={task.id.toString()}
-                    checked={task.completed}
-                    onCheckedChange={(checked) => toggleTask(task.id, Boolean(checked))}
-                  />
-                </TableCell>
+    <div className="flex flex-col gap-4">
+      <Tabs
+        value={filter}
+        onValueChange={(val) => setFilter(val as "all" | "active" | "completed")}
+      >
+        <TabsList>
+          <TabsTab value="all">All</TabsTab>
+          <TabsTab value="active">Active</TabsTab>
+          <TabsTab value="completed">Completed</TabsTab>
+        </TabsList>
+      </Tabs>
 
-                <TableCell>
-                  <TaskEditDialog task={task} />
-                </TableCell>
+      <Frame>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Done</TableHead>
+              <TableHead>Task</TableHead>
+              <TableHead>Priority</TableHead>
+              <TableHead>Due</TableHead>
+              <TableHead>Created</TableHead>
+              <TableHead>Modified</TableHead>
+              <TableHead className="text-right">Action</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {filteredTasks.length > 0 ? (
+              filteredTasks.map((task) => (
+                <TableRow key={task.id}>
+                  <TableCell>
+                    <Checkbox
+                      id={task.id.toString()}
+                      checked={task.completed}
+                      onCheckedChange={(checked) => toggleTask(task.id, Boolean(checked))}
+                    />
+                  </TableCell>
 
-                <TableCell className="text-muted-foreground tabular-nums">
-                  {task.deadline ? format(parseISO(task.deadline), "MMM d") : "—"}
-                </TableCell>
+                  <TableCell>
+                    <TaskEditDialog task={task} />
+                  </TableCell>
 
-                <TableCell className="text-muted-foreground tabular-nums">
-                  {format(task.created_at, "MMM d")}
-                </TableCell>
+                  <TableCell>
+                    {task.priority ? (
+                      <Badge
+                        variant={
+                          task.priority === "high"
+                            ? "destructive"
+                            : task.priority === "low"
+                              ? "outline"
+                              : "secondary"
+                        }
+                        className="capitalize"
+                      >
+                        {task.priority}
+                      </Badge>
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
 
-                <TableCell className="text-muted-foreground tabular-nums">
-                  {format(task.updated_at, "MMM d")}
-                </TableCell>
+                  <TableCell className="text-muted-foreground tabular-nums">
+                    {task.deadline ? format(parseISO(task.deadline), "MMM d") : "—"}
+                  </TableCell>
 
-                <TableCell className="text-right">
-                  <TaskDeleteDialog
-                    taskId={task.id}
-                    isOpen={deleteTaskId === task.id}
-                    onOpenChange={(open) => setDeleteTaskId(open ? task.id : null)}
-                    onDelete={deleteTask}
-                  />
+                  <TableCell className="text-muted-foreground tabular-nums">
+                    {format(task.created_at, "MMM d")}
+                  </TableCell>
+
+                  <TableCell className="text-muted-foreground tabular-nums">
+                    {format(task.updated_at, "MMM d")}
+                  </TableCell>
+
+                  <TableCell className="text-right">
+                    <TaskDeleteDialog
+                      taskId={task.id}
+                      isOpen={deleteTaskId === task.id}
+                      onOpenChange={(open) => setDeleteTaskId(open ? task.id : null)}
+                      onDelete={deleteTask}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={7}>
+                  <TaskTableEmpty />
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={6}>
-                <TaskTableEmpty />
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </Frame>
+            )}
+          </TableBody>
+        </Table>
+      </Frame>
+    </div>
   );
 }

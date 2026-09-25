@@ -21,11 +21,24 @@ import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
-import type { Task } from "@/types/task";
+import type { Task, TaskPriority } from "@/types/task";
 
 import { DiscardChangesDialog } from "./discard-changes-dialog";
+
+const priorityItems = {
+  low: "Low",
+  medium: "Medium",
+  high: "High",
+};
 
 interface TaskEditDialogProps {
   task: Task;
@@ -38,6 +51,7 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
     initialTitle: task.title,
     initialDescription: task.description,
     initialDeadline: task.deadline,
+    initialPriority: task.priority,
   });
   const { updateTask } = useTaskOperations();
 
@@ -76,6 +90,27 @@ export function TaskEditDialog({ task }: TaskEditDialogProps) {
                 onChange={(e) => setData("description", e.target.value)}
               />
               {errors.description ? <FieldError>{errors.description}</FieldError> : null}
+            </Field>
+
+            <Field name="priority" disabled={processing}>
+              <FieldLabel>Priority</FieldLabel>
+              <Select
+                items={priorityItems}
+                value={data.priority ?? "medium"}
+                onValueChange={(val) => {
+                  if (val) setData("priority", val as TaskPriority);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.priority ? <FieldError>{errors.priority}</FieldError> : null}
             </Field>
 
             <Field name="deadline" disabled={processing}>

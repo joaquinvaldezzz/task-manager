@@ -23,10 +23,25 @@ import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Kbd } from "@/components/ui/kbd";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "@/components/ui/tooltip";
 
+import type { TaskPriority } from "@/types/task";
+
 import { DiscardChangesDialog } from "./discard-changes-dialog";
+
+const priorityItems = {
+  low: "Low",
+  medium: "Medium",
+  high: "High",
+};
 
 export function TaskForm() {
   const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false);
@@ -89,6 +104,27 @@ export function TaskForm() {
                 value={data.description}
                 onChange={(e) => setData("description", e.target.value)}
               />
+            </Field>
+
+            <Field name="priority" disabled={processing}>
+              <FieldLabel>Priority</FieldLabel>
+              <Select
+                items={priorityItems}
+                value={data.priority ?? "medium"}
+                onValueChange={(val) => {
+                  if (val) setData("priority", val as TaskPriority);
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select priority" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">Low</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                </SelectContent>
+              </Select>
+              {errors.priority ? <FieldError>{errors.priority}</FieldError> : null}
             </Field>
 
             <Field name="deadline" disabled={processing}>
