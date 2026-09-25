@@ -62,7 +62,7 @@ When developers run `composer run setup` or `php artisan db:seed`, `DatabaseSeed
 ## Git workflow
 
 - Branch: `advisor/016-seed-sample-tasks`
-- Commit message: `feat(seeders): populate diverse sample tasks for default test user`
+- Commit message: `feat(seeders): seed diverse sample tasks`
 
 ## Steps
 
