@@ -7,7 +7,7 @@
 > in `plans/README.md` — unless a reviewer dispatched you and told you they
 > maintain the index.
 >
-> **Drift check (run first)**: `git diff --stat 7481977..HEAD -- resources/js/pages/dashboard/task-table-empty.tsx resources/js/pages/dashboard/tasks-table.tsx`
+> **Drift check (run first)**: `git diff --stat 8b8be05..HEAD -- resources/js/pages/dashboard/task-table-empty.tsx resources/js/pages/dashboard/tasks-table.tsx`
 > If any in-scope file changed since this plan was written, compare the
 > "Current state" excerpts against the live code before proceeding; on a
 > mismatch, treat it as a STOP condition.
@@ -19,7 +19,7 @@
 - **Risk**: LOW
 - **Depends on**: plans/011-fix-eslint-nested-ternary-and-clean-nav-user.md
 - **Category**: bug
-- **Planned at**: commit `7481977`, 2026-09-25
+- **Planned at**: commit `8b8be05`, 2026-09-25
 
 ## Why this matters
 
