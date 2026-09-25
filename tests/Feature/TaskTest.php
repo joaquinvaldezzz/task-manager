@@ -289,3 +289,27 @@ test('task update rejects invalid priority', function () {
 
     $response->assertSessionHasErrors('priority');
 });
+
+test('task factory produces default priority and supports state helpers', function () {
+    $defaultTask = Task::factory()->create();
+    expect($defaultTask->priority)->toBe('medium');
+
+    $completedHighTask = Task::factory()->completed()->highPriority()->create();
+    expect($completedHighTask->completed)->toBeTrue()
+        ->and($completedHighTask->priority)->toBe('high');
+
+    $incompleteLowTask = Task::factory()->incomplete()->lowPriority()->create();
+    expect($incompleteLowTask->completed)->toBeFalse()
+        ->and($incompleteLowTask->priority)->toBe('low');
+
+    $mediumTask = Task::factory()->mediumPriority()->create();
+    expect($mediumTask->priority)->toBe('medium');
+
+    $overdueTask = Task::factory()->overdue()->create();
+    expect($overdueTask->completed)->toBeFalse()
+        ->and($overdueTask->deadline)->not->toBeNull();
+
+    $dueTodayTask = Task::factory()->dueToday()->create();
+    expect($dueTodayTask->completed)->toBeFalse()
+        ->and($dueTodayTask->deadline->toDateString())->toBe(now()->toDateString());
+});
