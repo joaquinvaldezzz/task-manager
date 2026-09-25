@@ -126,7 +126,7 @@ export function TasksTable({ tasks }: TasksTableProps) {
             ) : (
               <TableRow>
                 <TableCell colSpan={7}>
-                  <TaskTableEmpty />
+                  <TaskTableEmpty filter={filter} totalTasks={tasks.length} />
                 </TableCell>
               </TableRow>
             )}
