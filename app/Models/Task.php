@@ -10,7 +10,7 @@ class Task extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'completed', 'deadline'];
+    protected $fillable = ['title', 'description', 'completed', 'deadline', 'priority'];
 
     /**
      * Get the attributes that should be cast.

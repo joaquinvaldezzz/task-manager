@@ -220,3 +220,72 @@ test('user can update a task deadline', function () {
         'deadline' => '2026-10-20',
     ]);
 });
+
+test('user can create a task with high priority', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
+        ->post(route('tasks.store'), [
+            'title' => 'High Priority Task',
+            'priority' => 'high',
+        ]);
+
+    $response->assertRedirect(route('dashboard'));
+
+    $this->assertDatabaseHas('tasks', [
+        'user_id' => $user->id,
+        'title' => 'High Priority Task',
+        'priority' => 'high',
+    ]);
+});
+
+test('user can update a task priority', function () {
+    $user = User::factory()->create();
+    $task = Task::factory()->create([
+        'user_id' => $user->id,
+        'priority' => 'low',
+    ]);
+
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
+        ->put(route('tasks.update', $task), [
+            'priority' => 'high',
+        ]);
+
+    $response->assertRedirect(route('dashboard'));
+
+    $this->assertDatabaseHas('tasks', [
+        'id' => $task->id,
+        'priority' => 'high',
+    ]);
+});
+
+test('task creation rejects invalid priority', function () {
+    $user = User::factory()->create();
+
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
+        ->post(route('tasks.store'), [
+            'title' => 'Invalid Priority Task',
+            'priority' => 'urgent',
+        ]);
+
+    $response->assertSessionHasErrors('priority');
+});
+
+test('task update rejects invalid priority', function () {
+    $user = User::factory()->create();
+    $task = Task::factory()->create([
+        'user_id' => $user->id,
+        'priority' => 'medium',
+    ]);
+
+    $response = $this->actingAs($user)
+        ->from(route('dashboard'))
+        ->put(route('tasks.update', $task), [
+            'priority' => 'urgent',
+        ]);
+
+    $response->assertSessionHasErrors('priority');
+});

@@ -1,9 +1,11 @@
+export type TaskPriority = "low" | "medium" | "high";
+
 export interface Task {
   id: number;
   title: string;
   description?: string;
   deadline?: string;
-  priority?: "low" | "medium" | "high";
+  priority?: TaskPriority;
   labels?: string[];
   completed: boolean;
   created_at: string;
@@ -14,4 +16,5 @@ export interface TaskFormData {
   title: string;
   description: string;
   deadline?: string | null;
+  priority?: TaskPriority;
 }
