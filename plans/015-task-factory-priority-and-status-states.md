@@ -75,7 +75,7 @@ The `TaskFactory` currently omits `priority` from its definition and lacks fluen
 ## Git workflow
 
 - Branch: `advisor/015-task-factory-states`
-- Commit message: `feat(factories): add priority and lifecycle states to TaskFactory`
+- Commit message: `feat(factories): add priority and status states`
 
 ## Steps
 
